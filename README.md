@@ -47,3 +47,4 @@ Le livrable c'est un code client html javascript uniquement hébergé en githubp
 
 * CORS : https://javascript.info/fetch-crossorigin
 * web sémantique : https://www.youtube.com/watch?v=2C1Y2bD5ZSE
+* le WHATWG : https://whatwg.org/
