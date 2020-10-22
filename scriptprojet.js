@@ -1,1 +1,3 @@
-console.log("c'est ici qu'il faut coder votre javascript")
+function myfetch(url, headers, cors){
+    fetch(url,{method:'GET', headers:headers, mode:cors, cache:'default'}).then(function(response){response.text().then(function(data){console.log(data)})})
+} 
