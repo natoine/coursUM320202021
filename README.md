@@ -53,3 +53,9 @@ Le livrable c'est un code client html javascript uniquement hébergé en githubp
 
 * openstreetmap : https://wiki.openstreetmap.org/wiki/API_v0.6
 * openfoodfacts : https://fr.openfoodfacts.org/data
+* liste des personnages de Harry Potter : https://api.mlab.com/api/1/databases/mongodab_test/collections/hp_test?apiKey=tBP9gjIqtyrt9TcTKdW79ESkdYrfjc_r
+* récupérer des informations sur un pays dont le taux de change vers l'euro https://countryproj.herokuapp.com/country/france ici pour la france
+* récupérer des cartes postales ( une citation et une image ) à partir d'un thème ( ici rabbit ) : https://postcardgenerator.herokuapp.com/postal_card/tags/rabbit
+* récupérer la météo de la capitale d'un pays et d'autres infos sur le pays : https://weatherworldavailable.herokuapp.com/villes/Afghanistan
+* récupérer tous les médecins d'ile de france : https://projetodmiashs.herokuapp.com/medecin
+  
