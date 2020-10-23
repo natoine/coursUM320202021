@@ -61,4 +61,10 @@ Le livrable c'est un code client html javascript uniquement hébergé en githubp
 * récupérer des cartes postales ( une citation et une image ) à partir d'un thème ( ici rabbit ) : https://postcardgenerator.herokuapp.com/postal_card/tags/rabbit
 * récupérer la météo de la capitale d'un pays et d'autres infos sur le pays : https://weatherworldavailable.herokuapp.com/villes/Afghanistan
 * récupérer tous les médecins d'ile de france : https://projetodmiashs.herokuapp.com/medecin
-  
+
+
+#le javascript dont vous avez besoin :
+
+* fetch api : https://developer.mozilla.org/fr/docs/Web/API/Fetch_API
+* comprendre l'asynchrone et les Promise : https://openclassrooms.com/fr/courses/5543061-ecrivez-du-javascript-pour-le-web/5577651-comprenez-comment-fonctionne-lasynchrone-en-js et https://openclassrooms.com/fr/courses/5543061-ecrivez-du-javascript-pour-le-web/5577676-gerez-du-code-asynchrone
+* manipulation du DOM
