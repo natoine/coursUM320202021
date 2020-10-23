@@ -24,10 +24,13 @@ Ca permet de relier les données entre elles sur le web par des URI.
 le web des données est la demarche d'integrer ensemble des données disparates et de les organiser 
 
 * Qu'est-ce que ça veut dire pour vous "intégration de données connectées" ?
-L'intégration de données connectée est l'aggregation de données.
+L'intégration de données connectée est l'aggregation de données. Idéalement de données identifiées par des URI.
 
 * En quoi cela peut vous servir dans un parcours Data Science ?
 Cela permet d'aller chercher des données et de constituer un corpus de données.
+
+* Client Serveur ?
+Un client émet des requêtes, un serveur répond à des requétes.
 
 #le sujet support d'exercice 
 Sur un github partagé, une branche par groupe, nous allons développer un moissoneur de données sur les EHPAD en France.
