@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="fr">
+    <head>
+        <meta charset="utf-8">
+        <script src="jquery.js"></script>
+
+    </head>
+
+  
+
+    <body>
+
+        <div id=maincontent>
+
+        </div>
+        <script >
+            var anotherOne = fetch('https://koumoul.com/s/data-fair/api/v1/datasets/dpe-france/api-docs.json').then(
+            function(response){
+                response.json().then(function(data){ anotherOne = data})
+                }
+            )
+            document.getElementById("maincontent").innerHTML=anotherOne;
+
+            let aom;
+            fetch('https://transport.data.gouv.fr/api/aoms/geojson').then(
+                function(response){
+                    response.json().then(function(data){ aom = data})
+                }
+            )
+
+            let datasets;
+            fetch('https://transport.data.gouv.fr/api/datasets').then(
+                function(response){
+                    response.json().then(function(data){ datasets = data})
+                }
+            )
+
+            let bikeSharing;
+            fetch('https://transport.data.gouv.fr/api/stats/bike-sharing').then(
+                function(response){
+                    response.json().then(function(data){ bikeSharing = data})
+                }
+            )
+
+         </script>
+
+    </body>
+</html>
+
