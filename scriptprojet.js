@@ -4,8 +4,14 @@ fetch('https://coronavirusapi-france.now.sh/AllLiveData', { method: 'GET',
                cache: 'default'}).then(
     function(response){
         response.json().then(function(data){
+            let cpt=0;
+            //let taille=result.rows();
 
-        	document.getElementById("maincontent").innerHTML=data["allLiveFranceData"][0]["nouvellesReanimations"];
+            for (cpt; cpt < 13 ; cpt++) {
+               // console.log(data["allLiveFranceData"][cpt]); 
+            }
+        
+            //document.getElementById("maincontent").innerHTML=data["allLiveFranceData"][0]["nouvellesReanimations"];
         })
             }
 )
@@ -100,8 +106,20 @@ function CSVToArray( strData, strDelimiter ){
                cache: 'default'}).then(
     function(response){
         response.text().then(function(data){
-        	result=CSVToArray(data,",");
-			document.getElementById("maincontent").innerHTML = result[4][4];
+            result=CSVToArray(data,",");
+            let cpt=0;
+            let tailleLigne=result[4].length;
+            let maListe=document.createElement("li")
+            document.getElementById("maincontent").appendChild(maListe);
+
+            for (cpt; cpt < tailleLigne; cpt++) {
+                console.log(result[4][cpt]); 
+                let monElement=document.createElement("ul");
+                monElement.innerHTML=result[4][cpt];
+                maListe.appendChild(monElement);
+            }
+        //document.getElementById("maincontent").innerHTML = result[4][4];
+
 
         })
             }
