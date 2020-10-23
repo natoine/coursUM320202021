@@ -66,5 +66,5 @@ Le livrable c'est un code client html javascript uniquement hébergé en githubp
 #le javascript dont vous avez besoin :
 
 * fetch api : https://developer.mozilla.org/fr/docs/Web/API/Fetch_API
-* comprendre l'asynchrone et les Promise : https://openclassrooms.com/fr/courses/5543061-ecrivez-du-javascript-pour-le-web/5577651-comprenez-comment-fonctionne-lasynchrone-en-js et https://openclassrooms.com/fr/courses/5543061-ecrivez-du-javascript-pour-le-web/5577676-gerez-du-code-asynchrone
+* comprendre l'asynchrone et les Promise : https://openclassrooms.com/fr/courses/5543061-ecrivez-du-javascript-pour-le-web/5577651-comprenez-comment-fonctionne-lasynchrone-en-js et https://openclassrooms.com/fr/courses/5543061-ecrivez-du-javascript-pour-le-web/5577676-gerez-du-code-asynchrone et https://openclassrooms.com/fr/courses/5543061-ecrivez-du-javascript-pour-le-web/5866911-parallelisez-plusieurs-requetes-http
 * manipulation du DOM
