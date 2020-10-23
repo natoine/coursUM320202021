@@ -1,11 +1,17 @@
-fetch('https://coronavirusapi-france.now.sh/AllLiveData', { method: 'GET',
+                fetch('https://coronavirusapi-france.now.sh/AllLiveData', { method: 'GET',
                headers: {},
                mode: 'cors',
                cache: 'default'}).then(
     function(response){
         response.json().then(function(data){
+            let cpt=0;
+            //let taille=result.rows();
 
-        	document.getElementById("maincontent").innerHTML=data["allLiveFranceData"][0]["nouvellesReanimations"];
+            for (cpt; cpt < 13 ; cpt++) {
+               // console.log(data["allLiveFranceData"][cpt]); 
+            }
+        
+            //document.getElementById("maincontent").innerHTML=data["allLiveFranceData"][0]["nouvellesReanimations"];
         })
             }
 )
@@ -100,9 +106,40 @@ function CSVToArray( strData, strDelimiter ){
                cache: 'default'}).then(
     function(response){
         response.text().then(function(data){
-        	result=CSVToArray(data,",");
-			document.getElementById("maincontent").innerHTML = result[4][4];
+            result=CSVToArray(data,",");
+            let cpt=0;
+            let tailleLigne=result[4].length;
+            let maListe=document.createElement("li")
+            document.getElementById("maincontent").appendChild(maListe);
+
+            for (cpt; cpt < tailleLigne; cpt++) {
+                console.log(result[4][cpt]); 
+                let monElement=document.createElement("ul");
+                monElement.innerHTML=result[4][cpt];
+                maListe.appendChild(monElement);
+            }
+        //document.getElementById("maincontent").innerHTML = result[4][4];
+
 
         })
             }
 )
+
+
+   //fetch('https://www.data.gouv.fr/fr/datasets/r/7c0f7980-1804-4382-a2a8-1b4af2e10d32', { method: 'GET',
+               //headers: {},
+               //mode: 'cors',
+               //cache: 'default'}).then(
+    //function(response){ 
+    //response.text().then(function(data){
+            //var result=CSVToArray(data,",");
+            //var adress=result[4][4];
+            //function extraitNombre(str){ 
+                 //return String(str.replace(/[^\d]/g, "")) }
+            //var code= extraitNombre(adress);
+            //var der = code.substring(code.length-5, code.length);
+            //var dep= der.substring(0, 2);
+            //document.getElementById("test").innerHTML = dep;
+        //})
+            //}
+//)  
