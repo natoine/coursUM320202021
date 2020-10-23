@@ -6,7 +6,6 @@ async function myfetch(url, headers, cors){
 
 function logdata(fetchresp) {
     fetchresp.then(function(response){response.text().then(function(data){
-        console.log("data", data);
         let main = document.getElementById("maincontent");
         let jsonview = document.createElement("div");
         jsonview.appendChild(document.createTextNode(data));
