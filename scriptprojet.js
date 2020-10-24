@@ -107,18 +107,28 @@ function CSVToArray( strData, strDelimiter ){
     function(response){
         response.text().then(function(data){
             result=CSVToArray(data,",");
-            let cpt=0;
-            let tailleLigne=result[4].length;
-            let maListe=document.createElement("li")
-            document.getElementById("maincontent").appendChild(maListe);
+            let cptLigne=0;
+            let tailleLigne= result.length
+            let tab=document.createElement("table")
+            document.getElementById("maincontent").appendChild(tab);
 
-            for (cpt; cpt < tailleLigne; cpt++) {
-                console.log(result[4][cpt]); 
-                let monElement=document.createElement("ul");
-                monElement.innerHTML=result[4][cpt];
-                maListe.appendChild(monElement);
+
+            //parcourt les lignes
+            for(cptLigne; cptLigne < tailleLigne ; cptLigne++){
+
+                let cptColonne=0;
+                let tailleColonne = result[cptLigne].length
+                let sautDeLigne = document.createElement("tr");
+                tab.appendChild(sautDeLigne);
+
+                //parcourt les colonnes d'une ligne
+                for (cptColonne; cptColonne < tailleColonne; cptColonne++) {
+                    let monElement=document.createElement("td");
+                    monElement.innerHTML=result[cptLigne][cptColonne];
+                    tab.appendChild(monElement);
+                }
             }
-        //document.getElementById("maincontent").innerHTML = result[4][4];
+        //document.getElementById("maincontent").innerHTML = result[3246][1];
 
 
         })
