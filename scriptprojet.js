@@ -6,15 +6,31 @@
         response.json().then(function(data){
             let cpt=0;
             //let taille=result.rows();
+            var result1=data;
+            console.log(result1);
+
+        //Récupère les noms des départements et les affiche dans le menu déroulant
+        const depselect= document.getElementById("dep-select");
+        let option;
+        for (let i = 0; i < 101; i++) {
+        option= document.createElement("option");
+        option.text=data["allLiveFranceData"][i]["nom"];
+        option.value=data["allLiveFranceData"][i]["code"];
+        depselect.add(option);
+    }
 
             for (cpt; cpt < 13 ; cpt++) {
                // console.log(data["allLiveFranceData"][cpt]); 
+
             }
         
             //document.getElementById("maincontent").innerHTML=data["allLiveFranceData"][0]["nouvellesReanimations"];
         })
             }
 )
+
+       
+
 
 //Fonction générale qui va transformer et afficher les données 
 function affiche_table_test(){
@@ -84,6 +100,7 @@ function transf_donnee_web_a_table(element) {
             horaire_prioritaire: element.horaire_prio, rdv: element.check_rdv, 
             tel: element.tel_rdv, site_web: element.web_rdv 
         };
+
     }   
     return null;
 }
