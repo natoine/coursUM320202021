@@ -16,140 +16,76 @@
             }
 )
 
-
-function CSVToArray( strData, strDelimiter ){
-        // Check to see if the delimiter is defined. If not,
-        // then default to comma.
-        strDelimiter = (strDelimiter || ",");
-
-        // Create a regular expression to parse the CSV values.
-        var objPattern = new RegExp(
-            (
-                // Delimiters.
-                "(\\" + strDelimiter + "|\\r?\\n|\\r|^)" +
-
-                // Quoted fields.
-                "(?:\"([^\"]*(?:\"\"[^\"]*)*)\"|" +
-
-                // Standard fields.
-                "([^\"\\" + strDelimiter + "\\r\\n]*))"
-            ),
-            "gi"
-            );
-
-
-        // Create an array to hold our data. Give the array
-        // a default empty first row.
-        var arrData = [[]];
-
-        // Create an array to hold our individual pattern
-        // matching groups.
-        var arrMatches = null;
-
-
-        // Keep looping over the regular expression matches
-        // until we can no longer find a match.
-        while (arrMatches = objPattern.exec( strData )){
-
-            // Get the delimiter that was found.
-            var strMatchedDelimiter = arrMatches[ 1 ];
-
-            // Check to see if the given delimiter has a length
-            // (is not the start of string) and if it matches
-            // field delimiter. If id does not, then we know
-            // that this delimiter is a row delimiter.
-            if (
-                strMatchedDelimiter.length &&
-                strMatchedDelimiter !== strDelimiter
-                ){
-
-                // Since we have reached a new row of data,
-                // add an empty row to our data array.
-                arrData.push( [] );
-
+//Fonction générale qui va transformer et afficher les données 
+function affiche_table_test(){
+    fetch('https://www.data.gouv.fr/fr/datasets/r/7c0f7980-1804-4382-a2a8-1b4af2e10d32', { 
+        method: 'GET',
+        headers: {},
+        mode: 'cors',
+        cache: 'default'}).then(function(response){
+            response.text().then(function(data){
+                //library papaperse qui permet de transformer un csv en array 
+                    //et créer des clefs et des valeurs pour chaque champ
+                result = Papa.parse(data,{header: true});
+                //map: transforme un tableau en un autre tableau
+                //transf_donnee_web_a_table: prend un élément du tableau original 
+                    //et retourne un élément dans un nouveau tableau
+                result_mod = result.data.map(transf_donnee_web_a_table);
+                //appelle une autre fonction
+                affiche_table_avec_donnees(result_mod);
             }
+        )
+    })
+}
 
-            var strMatchedValue;
+//Fonction qui affiche les éléments dans le html
+function affiche_table_avec_donnees(result_mod) {
+    let tab = document.createElement("table");
+    document.getElementById("maincontent").appendChild(tab);
+    let newLigne = document.createElement("tr");
+    tab.appendChild(newLigne);
+    let headers = ["Hopital", "Adresse", "Code Postal", "Prélévement", "Public",
+                    "Horaire", "Horaire prioritaire", "Rendez_vous", "Téléphone", "Site Web"];
 
-            // Now that we have our delimiter out of the way,
-            // let's check to see which kind of value we
-            // captured (quoted or unquoted).
-            if (arrMatches[ 2 ]){
-
-                // We found a quoted value. When we capture
-                // this value, unescape any double quotes.
-                strMatchedValue = arrMatches[ 2 ].replace(
-                    new RegExp( "\"\"", "g" ),
-                    "\""
-                    );
-
-            } else {
-
-                // We found a non-quoted value.
-                strMatchedValue = arrMatches[ 3 ];
-
-            }
-
-
-            // Now that we have our value string, let's add
-            // it to the data array.
-            arrData[ arrData.length - 1 ].push( strMatchedValue );
-        }
-
-        // Return the parsed data.
-        return( arrData );
+    for (let i = 0; i < headers.length; i++) {
+        let newColonne = document.createElement("td");
+        newColonne.innerHTML = headers[i];
+        tab.appendChild(newColonne);
     }
+    for (let j = 0; j < result_mod.length; j++){
+        let array_ligne = [result_mod[j].hopital,result_mod[j].adresse, result_mod[j].codePostal,
+        result_mod[j].prelevement, result_mod[j].public, result_mod[j].horaire, result_mod[j].horaire_prioritaire,
+        result_mod[j].rdv, result_mod[j].tel, result_mod[j].site_web];
+        let newLigne = document.createElement("tr");
 
-    fetch('https://www.data.gouv.fr/fr/datasets/r/7c0f7980-1804-4382-a2a8-1b4af2e10d32', { method: 'GET',
-               headers: {},
-               mode: 'cors',
-               cache: 'default'}).then(
-    function(response){
-        response.text().then(function(data){
-            result=CSVToArray(data,",");
-            let cptLigne=0;
-            let tailleLigne= result.length
-            let tab=document.createElement("table")
-            document.getElementById("maincontent").appendChild(tab);
-
-
-            //parcourt les lignes
-            for(cptLigne; cptLigne < tailleLigne ; cptLigne++){
-
-                let cptColonne=0;
-                let tailleColonne = result[cptLigne].length
-                let sautDeLigne = document.createElement("tr");
-                tab.appendChild(sautDeLigne);
-
-                //parcourt les colonnes d'une ligne
-                for (cptColonne; cptColonne < tailleColonne; cptColonne++) {
-                    let monElement=document.createElement("td");
-                    monElement.innerHTML=result[cptLigne][cptColonne];
-                    tab.appendChild(monElement);
-                }
+        for (let k=0; k < array_ligne.length; k++){
+            let newColonne = document.createElement("td");
+            if(array_ligne[k]!=null){
+                newColonne.innerHTML =array_ligne[k];
             }
-        //document.getElementById("maincontent").innerHTML = result[3246][1];
+            newLigne.appendChild(newColonne);
+        }
+        tab.appendChild(newLigne);
 
+    }
+}
 
-        })
-            }
-)
+//Fonction qui créer des clefs et des valeurs pour chaque champ
+    //+ ajoute une colonne pour le dep
+function transf_donnee_web_a_table(element) {
+    if(element.adresse!=null){
+        let cp= String(element.adresse.replace(/[^\d]/g, "")) ;
+        let der = cp.substring(cp.length-5, cp.length);
+        let dep= der.substring(0, 2);
+        return {
+            hopital: element.rs, adresse: element.adresse, codePostal: dep,
+            prelevement: element.mod_prel,
+            public: element.public, horaire: element.horaire, 
+            horaire_prioritaire: element.horaire_prio, rdv: element.check_rdv, 
+            tel: element.tel_rdv, site_web: element.web_rdv 
+        };
+    }   
+    return null;
+}
 
-
-   //fetch('https://www.data.gouv.fr/fr/datasets/r/7c0f7980-1804-4382-a2a8-1b4af2e10d32', { method: 'GET',
-               //headers: {},
-               //mode: 'cors',
-               //cache: 'default'}).then(
-    //function(response){ 
-    //response.text().then(function(data){
-            //var result=CSVToArray(data,",");
-            //var adress=result[4][4];
-            //function extraitNombre(str){ 
-                 //return String(str.replace(/[^\d]/g, "")) }
-            //var code= extraitNombre(adress);
-            //var der = code.substring(code.length-5, code.length);
-            //var dep= der.substring(0, 2);
-            //document.getElementById("test").innerHTML = dep;
-        //})
-            //}
-//)  
+affiche_table_test();
