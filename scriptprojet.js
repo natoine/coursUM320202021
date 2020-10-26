@@ -1,59 +1,28 @@
-/*function affiche_table_test(){
-    fetch('https://coronavirusapi-france.now.sh/AllLiveData', { 
+/*fetch('https://coronavirusapi-france.now.sh/AllLiveData', { 
         method: 'GET',
         headers: {},
         mode: 'cors',
         cache: 'default'}).then(function(response){
-            response.text().then(function(data){
-
-                let cpt=0;
-
-                var result = data;
-                console.log(result);
-               
-                affiche_table_avec_donnees(result);
-
-            }
-        )
-    })
-}
+            response.json().then(function(data){
+                for (i= 0; i<101; i++){
+                    code =data["allLiveFranceData"][i]["code"];
+                    date = data["allLiveFranceData"][i]["date"];
+                    deces = data["allLiveFranceData"][i]["deces"];
+                    gueris = data["allLiveFranceData"][i]["gueris"];
+                    hospitalises = data["allLiveFranceData"][i]["hospitalises"];
+                    nom = data["allLiveFranceData"][i]["nom"];
+                    nouvellesHospitalisations = data["allLiveFranceData"][i]["nouvellesHospitalisations"];
+                    nouvellesReanimations = data["allLiveFranceData"][i]["nouvellesReanimations"];
+                    reanimation = data["allLiveFranceData"][i]["reanimation"];
 
 
+                }
+        })
+        })*/
 
 
 
-function affiche_table_avec_donnees(result) {
-    let tab = document.createElement("table");
-    document.getElementById("maincontent").appendChild(tab);
-    let newLigne = document.createElement("tr");
-    tab.appendChild(newLigne);
-    let headers = ["Code", "Date", "Décès", "Guéris", "Hospitalisés",
-                    "Nom", "Nouvelles Hospitalisations", "Nouvelles Réanimations", "Réanimations"];
-
-    for (let i = 0; i < headers.length; i++) {
-        let newColonne = document.createElement("td");
-        newColonne.innerHTML = headers[i];
-        tab.appendChild(newColonne);
-    }
-    for (let j = 0; j < result.length; j++){
-        let array_ligne = [result[j].code,result[j].date, result[j].deces, result[j].gueris, result[j].hospitalises, result[j].nom, result[j].nouvellesHospitalisations, result[j].nouvellesReanimations, result[j].reanimation];
-        let newLigne = document.createElement("tr");
-
-        for (let k=0; k < array_ligne.length; k++){
-            let newColonne = document.createElement("td");
-            if(array_ligne[k]!=null){
-                newColonne.innerHTML =array_ligne[k];
-            }
-            newLigne.appendChild(newColonne);
-        }
-        tab.appendChild(newLigne);
-
-    }
-}
-affiche_table_test();*/
-
-
-               fetch('https://coronavirusapi-france.now.sh/AllLiveData', { method: 'GET',
+              fetch('https://coronavirusapi-france.now.sh/AllLiveData', { method: 'GET',
                headers: {},
                mode: 'cors',
                cache: 'default'}).then(
@@ -157,4 +126,4 @@ function transf_donnee_web_a_table(element) {
     return null;
 }
 
-affiche_table_test();
+affiche_table_test(); 
