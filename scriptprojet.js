@@ -1,4 +1,59 @@
-                fetch('https://coronavirusapi-france.now.sh/AllLiveData', { method: 'GET',
+/*function affiche_table_test(){
+    fetch('https://coronavirusapi-france.now.sh/AllLiveData', { 
+        method: 'GET',
+        headers: {},
+        mode: 'cors',
+        cache: 'default'}).then(function(response){
+            response.text().then(function(data){
+
+                let cpt=0;
+
+                var result = data;
+                console.log(result);
+               
+                affiche_table_avec_donnees(result);
+
+            }
+        )
+    })
+}
+
+
+
+
+
+function affiche_table_avec_donnees(result) {
+    let tab = document.createElement("table");
+    document.getElementById("maincontent").appendChild(tab);
+    let newLigne = document.createElement("tr");
+    tab.appendChild(newLigne);
+    let headers = ["Code", "Date", "Décès", "Guéris", "Hospitalisés",
+                    "Nom", "Nouvelles Hospitalisations", "Nouvelles Réanimations", "Réanimations"];
+
+    for (let i = 0; i < headers.length; i++) {
+        let newColonne = document.createElement("td");
+        newColonne.innerHTML = headers[i];
+        tab.appendChild(newColonne);
+    }
+    for (let j = 0; j < result.length; j++){
+        let array_ligne = [result[j].code,result[j].date, result[j].deces, result[j].gueris, result[j].hospitalises, result[j].nom, result[j].nouvellesHospitalisations, result[j].nouvellesReanimations, result[j].reanimation];
+        let newLigne = document.createElement("tr");
+
+        for (let k=0; k < array_ligne.length; k++){
+            let newColonne = document.createElement("td");
+            if(array_ligne[k]!=null){
+                newColonne.innerHTML =array_ligne[k];
+            }
+            newLigne.appendChild(newColonne);
+        }
+        tab.appendChild(newLigne);
+
+    }
+}
+affiche_table_test();*/
+
+
+               fetch('https://coronavirusapi-france.now.sh/AllLiveData', { method: 'GET',
                headers: {},
                mode: 'cors',
                cache: 'default'}).then(
@@ -33,8 +88,7 @@
 
 
 //Fonction générale qui va transformer et afficher les données 
-function affiche_table_test(){
-    fetch('https://www.data.gouv.fr/fr/datasets/r/7c0f7980-1804-4382-a2a8-1b4af2e10d32', { 
+   fetch('https://www.data.gouv.fr/fr/datasets/r/7c0f7980-1804-4382-a2a8-1b4af2e10d32', { 
         method: 'GET',
         headers: {},
         mode: 'cors',
@@ -49,10 +103,10 @@ function affiche_table_test(){
                 result_mod = result.data.map(transf_donnee_web_a_table);
                 //appelle une autre fonction
                 affiche_table_avec_donnees(result_mod);
-            }
-        )
-    })
-}
+            })
+        })
+    
+
 
 //Fonction qui affiche les éléments dans le html
 function affiche_table_avec_donnees(result_mod) {
@@ -69,9 +123,7 @@ function affiche_table_avec_donnees(result_mod) {
         tab.appendChild(newColonne);
     }
     for (let j = 0; j < result_mod.length; j++){
-        let array_ligne = [result_mod[j].hopital,result_mod[j].adresse, result_mod[j].codePostal,
-        result_mod[j].prelevement, result_mod[j].public, result_mod[j].horaire, result_mod[j].horaire_prioritaire,
-        result_mod[j].rdv, result_mod[j].tel, result_mod[j].site_web];
+        let array_ligne = [result_mod[j].hopital,result_mod[j].adresse, result_mod[j].codePostal, result_mod[j].prelevement, result_mod[j].public, result_mod[j].horaire, result_mod[j].horaire_prioritaire, result_mod[j].rdv, result_mod[j].tel, result_mod[j].site_web];
         let newLigne = document.createElement("tr");
 
         for (let k=0; k < array_ligne.length; k++){
