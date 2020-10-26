@@ -1,63 +1,64 @@
-/*fetch('https://coronavirusapi-france.now.sh/AllLiveData', { 
-        method: 'GET',
-        headers: {},
-        mode: 'cors',
-        cache: 'default'}).then(function(response){
-            response.json().then(function(data){
-                for (i= 0; i<101; i++){
-                    code =data["allLiveFranceData"][i]["code"];
-                    date = data["allLiveFranceData"][i]["date"];
-                    deces = data["allLiveFranceData"][i]["deces"];
-                    gueris = data["allLiveFranceData"][i]["gueris"];
-                    hospitalises = data["allLiveFranceData"][i]["hospitalises"];
-                    nom = data["allLiveFranceData"][i]["nom"];
-                    nouvellesHospitalisations = data["allLiveFranceData"][i]["nouvellesHospitalisations"];
-                    nouvellesReanimations = data["allLiveFranceData"][i]["nouvellesReanimations"];
-                    reanimation = data["allLiveFranceData"][i]["reanimation"];
-
-
-                }
-        })
-        })*/
-
-
-
-              fetch('https://coronavirusapi-france.now.sh/AllLiveData', { method: 'GET',
+            fetch('https://coronavirusapi-france.now.sh/AllLiveData', { method: 'GET',
                headers: {},
                mode: 'cors',
                cache: 'default'}).then(
-    function(response){
+        function(response){
         response.json().then(function(data){
-            let cpt=0;
-            //let taille=result.rows();
-            var result1=data;
-            console.log(result1);
 
-        //Récupère les noms des départements et les affiche dans le menu déroulant
-        const depselect= document.getElementById("dep-select");
-        let option;
-        for (let i = 0; i < 101; i++) {
+        //Créer un tableau avec le nom des colonnes, et met des bonnes valeurs dans les bonnes colonnes
+        // + récupère le département en le mettant dans une colonne
+        let tab1=document.createElement("table");
+        document.getElementById("maincontent1").appendChild(tab1);
+        let newLigne = document.createElement("tr");
+        tab1.appendChild(newLigne);
+
+        let headers = ["Code Postal", "Nom","Date","Hospitalisations","Réanimation","Nouvelles Hospitalisations","Nouvelles Réanimations", 
+        "Décès", "Guéris"];
+
+        for (let i = 0; i < headers.length; i++) {
+            let newColonne = document.createElement("td");
+            newColonne.innerHTML = headers[i];
+            tab1.appendChild(newColonne);
+        }
+        var cp= [] ;
+        for (let l=0;l<101;l++){
+            cp.push(String(data["allLiveFranceData"][l]["code"].replace(/[^\d]/g, "")));
+        }
+
+        for (let j = 0; j < 101; j++) {
+            let array_ligne = [cp[j], data["allLiveFranceData"][j]["nom"],data["allLiveFranceData"][j]["date"],
+            data["allLiveFranceData"][j]["hospitalises"],data["allLiveFranceData"][j]["reanimation"],data["allLiveFranceData"][j]["nouvellesHospitalisations"],
+            data["allLiveFranceData"][j]["nouvellesReanimations"],data["allLiveFranceData"][j]["deces"],data["allLiveFranceData"][j]["gueris"]];
+            let newLigne = document.createElement("tr");
+
+            for (let k=0; k < array_ligne.length; k++){
+                let newColonne = document.createElement("td");
+                if(array_ligne[k]!=null){
+                    newColonne.innerHTML =array_ligne[k];
+            }      
+        newLigne.appendChild(newColonne);
+        }
+    tab1.appendChild(newLigne);
+    }
+    //Récupère les noms des départements et les affiche dans le menu déroulant
+    const depselect= document.getElementById("dep-select");
+    let option;
+    for (let i = 0; i < 101; i++) {
         option= document.createElement("option");
         option.text=data["allLiveFranceData"][i]["nom"];
-        option.value=data["allLiveFranceData"][i]["code"];
+        option.value=cp[i];
         depselect.add(option);
-    }
-
-            for (cpt; cpt < 13 ; cpt++) {
-               // console.log(data["allLiveFranceData"][cpt]); 
-
-            }
-        
-            //document.getElementById("maincontent").innerHTML=data["allLiveFranceData"][0]["nouvellesReanimations"];
+        console.log(option.value);
+    }    
         })
-            }
-)
+            })
 
        
 
 
 //Fonction générale qui va transformer et afficher les données 
-   fetch('https://www.data.gouv.fr/fr/datasets/r/7c0f7980-1804-4382-a2a8-1b4af2e10d32', { 
+function affiche_table_test(){
+    fetch('https://www.data.gouv.fr/fr/datasets/r/7c0f7980-1804-4382-a2a8-1b4af2e10d32', { 
         method: 'GET',
         headers: {},
         mode: 'cors',
@@ -72,12 +73,14 @@
                 result_mod = result.data.map(transf_donnee_web_a_table);
                 //appelle une autre fonction
                 affiche_table_avec_donnees(result_mod);
-            })
-        })
-    
+            }
+        )
+    })
+}
 
 
 //Fonction qui affiche les éléments dans le html
+
 function affiche_table_avec_donnees(result_mod) {
     let tab = document.createElement("table");
     document.getElementById("maincontent").appendChild(tab);
@@ -91,8 +94,11 @@ function affiche_table_avec_donnees(result_mod) {
         newColonne.innerHTML = headers[i];
         tab.appendChild(newColonne);
     }
+
     for (let j = 0; j < result_mod.length; j++){
-        let array_ligne = [result_mod[j].hopital,result_mod[j].adresse, result_mod[j].codePostal, result_mod[j].prelevement, result_mod[j].public, result_mod[j].horaire, result_mod[j].horaire_prioritaire, result_mod[j].rdv, result_mod[j].tel, result_mod[j].site_web];
+        let array_ligne = [result_mod[j].hopital,result_mod[j].adresse, result_mod[j].codePostal,
+        result_mod[j].prelevement, result_mod[j].public, result_mod[j].horaire, result_mod[j].horaire_prioritaire,
+        result_mod[j].rdv, result_mod[j].tel, result_mod[j].site_web];
         let newLigne = document.createElement("tr");
 
         for (let k=0; k < array_ligne.length; k++){
@@ -103,9 +109,11 @@ function affiche_table_avec_donnees(result_mod) {
             newLigne.appendChild(newColonne);
         }
         tab.appendChild(newLigne);
-
     }
+
 }
+
+
 
 //Fonction qui créer des clefs et des valeurs pour chaque champ
     //+ ajoute une colonne pour le dep
@@ -126,4 +134,4 @@ function transf_donnee_web_a_table(element) {
     return null;
 }
 
-affiche_table_test(); 
+affiche_table_test();
