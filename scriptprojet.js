@@ -108,9 +108,23 @@ function affiche_table_test(){
     })
 }
 
+carte()
+//Ici tu peux utiliser la long et la lat. Met ton code pour afficher la carte 
+function carte(){
+    fetch('https://www.data.gouv.fr/fr/datasets/r/7c0f7980-1804-4382-a2a8-1b4af2e10d32', { 
+        method: 'GET',
+        headers: {},
+        mode: 'cors',
+        cache: 'default'}).then(function(response){
+            response.text().then(function(data){
+                result = Papa.parse(data,{header: true});
+                result_mod = result.data.map(transf_donnee_web_a_table);
+                console.log(result_mod[1].latitude)
+            })
+        })
+}
 
 //Fonction qui affiche les éléments dans le html du test covid
-
 function affiche_table_avec_donnees(result_mod) {
     let tab = document.createElement("table");
     tab.setAttribute("border", "1");
@@ -169,7 +183,8 @@ function transf_donnee_web_a_table(element) {
             prelevement: element.mod_prel,
             public: element.public, horaire: element.horaire, 
             horaire_prioritaire: element.horaire_prio, rdv: element.check_rdv, 
-            tel: element.tel_rdv, site_web: element.web_rdv 
+            tel: element.tel_rdv, site_web: element.web_rdv, latitude: element.latitude,
+            longitude: element.longitude
         };
 
     }   
