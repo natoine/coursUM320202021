@@ -47,13 +47,13 @@ function affiche_table_hopital(){
                         result_filter[j]["nouvellesReanimations"],result_filter[j]["deces"],result_filter[j]["gueris"]];
                         let newLigne = document.createElement("tr");
 
-                        for (let k=0; k < array_ligne.length; k++){
-                            let newColonne = document.createElement("td");
+                        //for (let k=0; k < array_ligne.length; k++){
+                            //let newColonne = document.createElement("td");
 
-                            if(array_ligne[k]!=null){
-                                newColonne.innerHTML =array_ligne[k];
+                            //if(array_ligne[k]!=null){
+                                //newColonne.innerHTML =array_ligne[k];
                             }      
-                        newLigne.appendChild(newColonne);
+                        //newLigne.appendChild(newColonne);
                         }
                         tab1.appendChild(newLigne);
                     }
