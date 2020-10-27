@@ -24,14 +24,34 @@ background-color: #F0F8FF;
   			border-radius: 25px;
 		}
 		p{
-			font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+			font-family: "Arial";
+			text-align: center;
+			margin-left: 80px;
+			margin-right: 80px;
+			color: #FF8587;
 		}
 		hr{
 			width: 50%;
 			size: 15;
-
 		}
-		
+	
+		input[type="submit"], textarea {
+  			background-color : #FF8587;
+  			border-bottom-left-radius: 15px;
+			border-bottom-right-radius: 15px;
+			border-top-right-radius: 15px;
+			border-top-left-radius: 15px;
+			font-family: Arial; 
+		}
+		#div1{
+			margin-left: 420px;
+		}
+		#div2{
+			margin-left: 500px;
+		}
+		#div3{
+			margin-left: 560px;
+		}
 
     </style>
 	<script  src="scriptprojet.js">
@@ -40,22 +60,31 @@ background-color: #F0F8FF;
     <body>
     	<h1> COVID NEWS</h1>
     	<img src="corona.jpg">
+    	<br>
+    	<p> Retrouvez ici toutes les infos concernant le COVID-19 en fonction de votre département.
+    	Un doute ? N'hésitez pas à consulter les endroits proches de chez vous pour vous faire tester ! </p>
     	<hr>
-    	<label for="dep-select">Choisissez un département:</label>
-
-		<select name="dep" id="dep-select">
-    	<option>--Veuillez choisir un département--</option>
-		</select>
-		<input type="submit" value="Valider" onclick="affiche_table_hopital()">
-
-		<input type="submit" value="Ou se faire tester?" onclick="affiche_table_test()">
-
-
-
+    	<br>
+    	<div id="div1">
+    		<label for="dep-select">Choisissez un département:</label>
+			<select name="dep" id="dep-select">
+    			<option>--Veuillez choisir un département--</option>
+			</select>
+		</div>
+		<br>
+		<div id="div2">
+			<input type="submit" value="Afficher les informations relatives au COVID-19" onclick="affiche_table_hopital()">
+		</div>
+		<br>
+        <div id=maincontent1></div>
+        <br>
+        <div id="div3">
+        	<input type="submit" value="Ou se faire tester ?" onclick="affiche_table_test()">
+    	</div>
+   		<br>
         <div id=maincontent>
         </div>
 
-        <div id=maincontent1></div>
     </body>
 
 </html>

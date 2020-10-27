@@ -12,6 +12,9 @@ function affiche_table_hopital(){
                     //Créer un tableau avec le nom des colonnes, et met des bonnes valeurs dans les bonnes colonnes
                     // + récupère le département en le mettant dans une colonne
                     let tab1=document.createElement("table");
+                    tab1.setAttribute("border", "1");
+                    tab1.style.textAlign="center";
+                    tab1.style.marginLeft="150px";
                     document.getElementById("maincontent1").appendChild(tab1);
                     let newLigne = document.createElement("tr");
                     tab1.appendChild(newLigne);
@@ -32,13 +35,14 @@ function affiche_table_hopital(){
 
                     var result_filter = [];
                     for(let y =0; y<101; y++){
-                        if(cp[y]===document.getElementById("dep-select").value){
+                        if(cp[y]==document.getElementById("dep-select").value){
                             result_filter.push(data["allLiveFranceData"][y]);
+                            cp1=cp[y];
                         }
                     }
 
                     for (let j = 0; j <result_filter.length; j++) {
-                        let array_ligne = [result_filter[j]["nom"],result_filter[j]["date"],
+                        let array_ligne = [cp1,result_filter[j]["nom"],result_filter[j]["date"],
                         result_filter[j]["hospitalises"],result_filter[j]["reanimation"],result_filter[j]["nouvellesHospitalisations"],
                         result_filter[j]["nouvellesReanimations"],result_filter[j]["deces"],result_filter[j]["gueris"]];
                         let newLigne = document.createElement("tr");
@@ -109,6 +113,8 @@ function affiche_table_test(){
 
 function affiche_table_avec_donnees(result_mod) {
     let tab = document.createElement("table");
+    tab.setAttribute("border", "1");
+    tab.style.textAlign="center";
     document.getElementById("maincontent").appendChild(tab);
     let newLigne = document.createElement("tr");
     tab.appendChild(newLigne);
