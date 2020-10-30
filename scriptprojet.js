@@ -16,18 +16,18 @@ function affiche_table_hopital(){
                     tab1.style.textAlign="center";
                     tab1.style.marginLeft="150px";
                     document.getElementById("maincontent1").appendChild(tab1);
-                    let newLigne = document.createElement("tr");
-                    tab1.appendChild(newLigne);
+                    //let newLigne = document.createElement("tr");
+                    //tab1.appendChild(newLigne);
 
                     let headers = ["Code Postal", "Nom","Date","Hospitalisations","Réanimation","Nouvelles Hospitalisations","Nouvelles Réanimations", 
                     "Décès", "Guéris"];
 
                     for (let i = 0; i < headers.length; i++) {
-                        let newColonne = document.createElement("td");
-                        newColonne.innerHTML = headers[i];
-                        tab1.appendChild(newColonne);
+                        let newLigne = document.createElement("tr");
+                        newLigne.innerHTML = headers[i];
+                        tab1.appendChild(newLigne);
                     }
-
+                    
                     var cp= [] ;
                     for (let l=0;l<101;l++){
                         cp.push(String(data["allLiveFranceData"][l]["code"].replace(/[^\d]/g, "")));
@@ -45,17 +45,17 @@ function affiche_table_hopital(){
                         let array_ligne = [cp1,result_filter[j]["nom"],result_filter[j]["date"],
                         result_filter[j]["hospitalises"],result_filter[j]["reanimation"],result_filter[j]["nouvellesHospitalisations"],
                         result_filter[j]["nouvellesReanimations"],result_filter[j]["deces"],result_filter[j]["gueris"]];
-                        let newLigne = document.createElement("tr");
+                        let newColonne = document.createElement("td");
 
                         for (let k=0; k < array_ligne.length; k++){
-                            let newColonne = document.createElement("td");
+                            let newLigne = document.createElement("tr");
 
                             if(array_ligne[k]!=null){
-                                newColonne.innerHTML =array_ligne[k];
+                                newLigne.innerHTML =array_ligne[k];
                             }      
-                        newLigne.appendChild(newColonne);
+                        newColonne.appendChild(newLigne);
                         }
-                        tab1.appendChild(newLigne);
+                        tab1.appendChild(newColonne);
                     }
             })
     })
