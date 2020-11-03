@@ -1,10 +1,11 @@
 console.log("c'est ici qu'il faut coder votre javascript")
 
-var myHeaders = new Headers({"Access-Control-Allow-Origin" : "*"})
-
-var myInit = { method: 'GET',
-               headers: myHeaders,
-               mode: 'no-cors',
-               cache: 'default' };
-
-fetch("https://data.montpellier3m.fr/sites/default/files/ressources/OSM_Castelnau_equipement_sportif_point.json",myInit).then(data=>{data.text().then(data=>{result=data.records})})
+fetch("https://public.opendatasoft.com/api/records/1.0/search/?dataset=us-2016-primary-results&q=state%3DTexas&facet=state&facet=county&facet=party&facet=candidate")
+  .then((response) => {
+    return response.json()
+  })
+  .then((data) => {
+    // Work with JSON data here
+    res=JSON.stringify(data)
+    console.log(res);
+  })
