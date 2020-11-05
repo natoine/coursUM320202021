@@ -10,7 +10,7 @@
     <body onload="etats()">
       <p id="Bienvenue">Bienvenue</p>
         <div class="usa_map">
-          <svg xmlns="http://www.w3.org/2000/svg" xmlns:amcharts="http://amcharts.com/ammap" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" >
+          <svg xmlns="http://www.w3.org/2000/svg" xmlns:amcharts="http://amcharts.com/ammap" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 1200 800">
           	<defs>
           		<!-- All areas are listed in the line below. You can use this list in your script. -->
           		<!--{id:"AK"},{id:"AL"},{id:"AR"},{id:"AZ"},{id:"CA"},{id:"CO"},{id:"CT"},{id:"DC"},{id:"DE"},{id:"FL"},{id:"GA"},{id:"HI"},{id:"IA"},{id:"ID"},{id:"IL"},{id:"IN"},{id:"KS"},{id:"KY"},{id:"LA"},{id:"MA"},{id:"MD"},{id:"ME"},{id:"MI"},{id:"MN"},{id:"MO"},{id:"MS"},{id:"MT"},{id:"NC"},{id:"ND"},{id:"NE"},{id:"NH"},{id:"NJ"},{id:"NM"},{id:"NV"},{id:"NY"},{id:"OH"},{id:"OK"},{id:"OR"},{id:"PA"},{id:"RI"},{id:"SC"},{id:"SD"},{id:"TN"},{id:"TX"},{id:"UT"},{id:"VA"},{id:"VT"},{id:"WA"},{id:"WI"},{id:"WV"},{id:"WY"}-->
@@ -71,12 +71,51 @@
           	</g>
           </svg>
           <div id='liste_etats'>
-            <ul id="etat"></ul>
           </div>
           <div id="information">
           <p id="infobulle"></p>
           <p id="donnees"></p>
           <ul id="liste"></ul>
+          <canvas id="myChart" width="400" height="400"></canvas>
+<script>
+var ctx = document.getElementById('myChart').getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+        datasets: [{
+            label: '# of Votes',
+            data: [12, 19, 3, 5, 2, 3],
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
+});
+</script>
           </div>
         </div>
     </body>

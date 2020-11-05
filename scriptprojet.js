@@ -11,7 +11,6 @@ function etats(){
       for (var i  in data){
         $("#"+i).attr("onmouseover", "drawInfobulle('"+data[i]+"', '#"+i+"')");
         $("#"+i).attr("onmouseleave", "removeInfobulle()");
-        $("#etat").append("<p mouseover='drawInfobulle('"+data[i]+"', '#"+i+"')' mouseover='removeInfobulle()' id=#"+i+">"+data[i]+"</p>");
       }
     })
 }
@@ -27,21 +26,28 @@ function drawInfobulle(element,index){
     .then((data) => {
       // Work with JSON data here
       res=JSON.stringify(data)
-      console.log(data[1]);
       for (var i  in data['records']){
-        var str="";
+        var str="<li>";
         str+=data['records'][i]['fields']['candidate'];
         str+=' : ';
         // //str+=data['records'][i]['fields']['votes'];
         // str+='Proportion de votes : '+data['records'][i]['fields']['fraction_votes'];
         // //str+='Comté : '+data['records'][i]['fields']['county'];
-        str+=data['records'][i]['fields']['party'];
+        str+=data['records'][i]['fields']['party']+'</li>';
         // str+='\n';
         $("#liste").append(str);
       }
       //donnees.html(str);
     })
-  console.log(element);
+    fetch("https://public.opendatasoft.com/api/records/1.0/search/?rows=40&start=40&dataset=residential-segregation-data-for-us-metro-areas&timezone=Europe%2FBerlin&lang=en")
+      .then((response) => {
+        return response.json()
+      })
+      .then((data) => {
+        // Work with JSON data here
+        res=JSON.stringify(data)
+        console.log(data['records'][1]['fields']);
+      })
 }
 function removeInfobulle(){
   $("#liste").append('');

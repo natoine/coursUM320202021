@@ -3,7 +3,7 @@ body{
 }
 
 svg{
-  width: 75%;
+  width: 65%;
   height: 800px;
 }
 .usa_map{
@@ -29,8 +29,9 @@ svg{
 }
 #information{
   background: #B404AE;
-  width: 20%;
-  height: 40%;
+  width: 35%;
+  height: 80%;
+  margin-top: -50%;
   float: right;
   border-radius: 20px;
 }
