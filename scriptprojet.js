@@ -26,47 +26,24 @@ function affiche_table_hopital(){
                         }
                     }
 
+                    div3=document.getElementById('div3');
+                    var img = document.createElement('img');
+                    img.src = 'doute.gif';
+                    document.getElementById('div4').appendChild(img);
 
+                    div5=document.getElementById('div5');
 
-                    console.log(result_filter);
+                    div3.innerHTML = "<br> En "+result_filter[0]["nom"]+" ("+cp1+")"+", le "+
+                    result_filter[0]["date"]+", il y a "+result_filter[0]["hospitalises"]+
+                    " patient(s) hospitalisé(s), "+result_filter[0]["reanimation"]+" en reanimation. On dénombre "+result_filter[0]["nouvellesHospitalisations"]
+                    +" nouvelle(s) hopitalisation(s) et "+result_filter[0]["nouvellesReanimations"]+" nouvelle(s) réanimation(s). Le nombre de décès a augmenté de "+
+                    result_filter[0]["deces"]+". "+"<br>"+result_filter[0]["gueris"]+" personnes ont été guéris."
 
-                     div3=document.getElementById('div3');
-                     div3.className = "card text-white bg-dark mb-3";
-                     div3.style = "max-width: 18rem;";
-                     div4=document.getElementById('div4');
-                     div4.className = "card-header";
-                     div4.appendChild(result_filter[0]["nom"]+" ("+cp1+")");
-                     
-
-
-                     div.innerHTML = "En "+result_filter[0]["nom"]+" ("+cp1+")"+", le "+
-                     result_filter[0]["date"]+", il y a "+result_filter[0]["hospitalises"]+
-                     " patients hospitalisés, "+result_filter[0]["reanimation"]+" reanimations soit"+
-                     result_filter[0]["nouvellesReanimations"]+" de plus qu'hier. Le nombre de deces a augmenté de"+
-                     result_filter[0]["deces"]+". "+result_filter[0]["gueris"]+" personnes ont été guéris."
-
-                    /*var tab1 = document.createElement
-
-                    //Remplir le tableau
-                    for (let j = 0; j <result_filter.length; j++) {
-                        console.log(j);
-                        let array_ligne = [cp1,result_filter[j]["nom"],result_filter[j]["date"],
-                        result_filter[j]["hospitalises"],result_filter[j]["reanimation"],result_filter[j]["nouvellesHospitalisations"],
-                        result_filter[j]["nouvellesReanimations"],result_filter[j]["deces"],result_filter[j]["gueris"]];
-                        let newColonne = document.createElement("td");
-
-                        for (let k=0; k < array_ligne.length; k++){
-                            let newLigne = document.createElement("tr");
-                            if(array_ligne[k]!=null){
-                                newLigne.innerHTML =array_ligne[k];
-                            }      
-                            newColonne.appendChild(newLigne);
-                        }
-                        tab1.appendChild(newColonne);
-                    }*/
+                    div5.innerHTML="Un doute ? Pas de panique ! Voici les lieux où se faire dépister dans votre département :"
             })
     })
-     fetch('https://www.data.gouv.fr/fr/datasets/r/7c0f7980-1804-4382-a2a8-1b4af2e10d32', { 
+
+    fetch('https://www.data.gouv.fr/fr/datasets/r/7c0f7980-1804-4382-a2a8-1b4af2e10d32', { 
         method: 'GET',
         headers: {},
         mode: 'cors',
@@ -132,22 +109,6 @@ function affiche_table_test(){
     })
 }
 
-carte()
-//Ici tu peux utiliser la long et la lat. Met ton code pour afficher la carte 
-function carte(){
-    fetch('https://www.data.gouv.fr/fr/datasets/r/7c0f7980-1804-4382-a2a8-1b4af2e10d32', { 
-        method: 'GET',
-        headers: {},
-        mode: 'cors',
-        cache: 'default'}).then(function(response){
-            response.text().then(function(data){
-                result = Papa.parse(data,{header: true});
-                result_mod = result.data.map(transf_donnee_web_a_table);
-                console.log(result_mod[1].latitude)
-            })
-        })
-}
-
 //Fonction qui affiche les éléments dans le html du test covid
 function affiche_table_avec_donnees(result_mod) {
     let tab = document.createElement("table");
@@ -197,8 +158,6 @@ function affiche_table_avec_donnees(result_mod) {
 
 }
 
-
-
 //Fonction qui créer des clefs et des valeurs pour chaque champ
     //+ ajoute une colonne pour le dep du test covid
 function transf_donnee_web_a_table(element) {
@@ -218,4 +177,3 @@ function transf_donnee_web_a_table(element) {
     }   
     return null;
 }
-

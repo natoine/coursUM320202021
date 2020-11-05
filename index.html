@@ -9,7 +9,7 @@
 
     </head>
    	<style type="text/css">
-    	html{
+    	body{
 			background-color: #F0FFFF;
 			}
 		h1{
@@ -20,6 +20,8 @@
 			border-width:2px;
  			border-style:dotted;
  			border-color:#FF8587;
+ 			margin-right: 300px;
+ 			margin-left: 300px;
 		}
 		img{
 			width: 300px;
@@ -57,18 +59,39 @@
 			margin-left: 500px;
 		}
 		#div3{
-			margin-left: 560px;
+			margin-left: 60px;
+			font-family: "Arial";
+			text-align: center;
+			margin-left: 80px;
+			margin-right: 80px;
+			color: #FF8587;
+			font-size: 25px;
+		}
+		#div4{
+			margin-left: 80px;
+			margin-right: 80px;
+			
+		}
+		#div5{
+			margin-left: 60px;
+			font-family: "Arial";
+			text-align: center;
+			margin-left: 80px;
+			margin-right: 80px;
+			color: #FF8587;
+			font-size: 25px;
 		}
 		label{
 			font-family: arial;
 		}
-
     </style>
+
 	<script  src="scriptprojet.js">
 	</script>
 
     <body>
     	<h1> COVID NEWS</h1>
+    	<br>
     	<img src="gifcorona.gif">
     	<br>
     	<p> Retrouvez ici toutes les infos concernant le COVID-19 en fonction de votre département.
@@ -87,12 +110,13 @@
 			<input type="submit" value="Afficher les informations relatives au COVID-19" onclick="affiche_table_hopital()">
 		</div>
 		<br>
-        <div id=div3></div>
-        <div id=div4></div>
-        <div id=div5></div>
+        <div id="div3"></div>
+        <div id="image"></div>
+        <div id="div4">
+        </div>
+        <div id="div5"></div>
         <br>
         <br>
-        
    		<br>
         <div id=maincontent>
         </div>
