@@ -11,6 +11,7 @@ function etats(){
       for (var i  in data){
         $("#"+i).attr("onmouseover", "drawInfobulle('"+data[i]+"', '#"+i+"')");
         $("#"+i).attr("onmouseleave", "removeInfobulle()");
+        $("#etat").append("<p mouseover='drawInfobulle('"+data[i]+"', '#"+i+"')' mouseover='removeInfobulle()' id=#"+i+">"+data[i]+"</p>");
       }
     })
 }
