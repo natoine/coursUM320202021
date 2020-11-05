@@ -1,27 +1,40 @@
-svg{
-  width: 1100px;
-  height: 800px;
+body{
+    font-family: sans-serif;
 }
 
+svg{
+  width: 75%;
+  height: 800px;
+}
+.usa_map{
+  padding: 2%;
+  border-radius: 2%;
+  background: pink;
+}
 .usa_map path{
   float:left;
   fill: #F6CEF5;
-  stroke: #FA58F4;
+  stroke: #FD79FF;
   transition: fill 0.3s;
 }
 
 .usa_map path:hover{
   fill:#B404AE;
 }
-
+#Bienvenue{
+  margin-left: auto;
+  margin-right: auto;
+  width: 200px;
+  font-size: 200%;
+}
 #information{
   background: #B404AE;
-  width: 500px;
-  height: 200px;
+  width: 20%;
+  height: 40%;
   float: right;
   border-radius: 20px;
 }
 
 #infobulle{
-  background: red;
+  padding: 20px;
 }

@@ -7,7 +7,8 @@
         <script type="text/javascript" src="scriptprojet.js"></script>
     </head>
 
-    <body>
+    <body onload="etats()">
+      <p id="Bienvenue">Bienvenue</p>
         <div class="usa_map">
           <svg xmlns="http://www.w3.org/2000/svg" xmlns:amcharts="http://amcharts.com/ammap" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" >
           	<defs>
@@ -69,7 +70,11 @@
           		<path id="WY" title="Wyoming" class="land" d="M499.16,180.45L495.46,226.79L491.58,271.97L474.43,270.36L440.2,266.58L423.12,264.4L406.05,262.04L372.15,256.16L375.87,234.37L385.21,178.56L384.7,178.06L385.13,177.31L386.97,165.87L418.47,170.63L443.38,174.28L472.33,177.57z"/>
           	</g>
           </svg>
-          <g id="infobulle" transform="translate(50,50)"></g>
+          <div id="information">
+          <p id="infobulle"></p>
+          <p id="donnees"></p>
+          <ul id="liste"></ul>
+          </div>
         </div>
     </body>
 </html>
