@@ -1,0 +1,27 @@
+svg{
+  width: 1100px;
+  height: 800px;
+}
+
+.usa_map path{
+  float:left;
+  fill: #F6CEF5;
+  stroke: #FA58F4;
+  transition: fill 0.3s;
+}
+
+.usa_map path:hover{
+  fill:#B404AE;
+}
+
+#information{
+  background: #B404AE;
+  width: 500px;
+  height: 200px;
+  float: right;
+  border-radius: 20px;
+}
+
+#infobulle{
+  background: red;
+}

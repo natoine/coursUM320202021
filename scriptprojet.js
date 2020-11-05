@@ -8,11 +8,12 @@ fetch("https://gist.githubusercontent.com/mshafrir/2646763/raw/8b0dbb93521f5d688
     // Work with JSON data here
     res=JSON.stringify(data)
     for (var i  in data){
-      $("#"+i).attr("onmouseover", "drawInfobulle("+data[i]+")");
+      console.log(data);
+      $("#"+i).attr("onmouseover", "drawInfobulle('"+data[i]+"', '#"+i+"')");
       $("#"+i).attr("onmouseleave", "removeInfobulle()");
     }
   })
-function drawInfobulle(element){
+function drawInfobulle(element,index){
   console.log(element);
 }
 function removeInfobulle(){
