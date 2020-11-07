@@ -14,26 +14,47 @@ var seggregation = "https://public.opendatasoft.com/api/records/1.0/search/?rows
 // 
 // url2 = "https://public.opendatasoft.com/api/records/1.0/search/?dataset=residential-segregation-data-for-us-metro-areas&q=msa%3D"+ li +"&rows=4&facet=cbsa&facet=msa&facet=state_code";
 
+var isTest = false;
+
+
 
 
 var link;
-fetch(linkState)
-    .then(data => {data.json()
+var promiseDict = fetch(linkState)
+    .then(data => {return data.json()
         .then(data => {
             link = data; 
-            //CrossData();
+            // Utilisation de la technique Promise.all() : https://openclassrooms.com/fr/courses/5543061-ecrivez-du-javascript-pour-le-web/5866911-parallelisez-plusieurs-requetes-http
+            return promiseDict = CrossDataWinnerFood();
         })
     });
+
+async function getVoteAndFood(state){
+    if(typeof promiseDict != "undefined"){
+        return await promiseDict[state].then(list =>{ // [vote, food]
+            return list;
+        })
+    } else {
+        console.log("Pas encore de valeur !")
+    }
+}
+
+
+getVoteAndFood("TX").then(data => {
+    console.log(data)
+})
+
+
 
 
 // ################################################## Cross Data ##################################################
 
-async function CrossData(){
+async function CrossDataWinnerFood(){
     promiseDict = {}
     for(li in link){
-        promiseDict[li]= [await takeFastFoodVarForOneState(li)]//, await 
+        promiseDict[li]= Promise.all([await takeFastFoodVarForOneState(li), await takePresidentialVoteVarForOneState(link[li])]); 
     }
-    return promiseList;
+    return promiseDict;
 }
 
 
@@ -45,16 +66,12 @@ async function takePresidentialVoteVarForOneState(stateFullName){
     .then(
         data => {
             return data.json().then(res => {
-                return res;
+                if (typeof res["records"][0]["fields"]["winner"] != "undefined") return res["records"][0]["fields"]["winner"];
+                else return "error";
             })
         }
     )
 }
-
-takePresidentialVoteVarForOneState("Texas")
-.then(data=>{
-    console.log(data["records"][0]["fields"]["winner"]);
-})
 
 // ################################################## Us food data request ##################################################
 
@@ -78,9 +95,11 @@ async function takeFastFoodVarForOneState(state){
                 return result;
             })
         }
-    )
+        )
+    }
+if(isTest==true){
+    takePresidentialVoteVarForOneState("Texas").then(data=>{ console.log(data["records"][0]["fields"]["winner"]); });    
+    
+    var state = "WI"
+    takeFastFoodVarForOneState(state).then(data => {console.log(data)})
 }
-
-var state = "WI"
-var val = takeFastFoodVarForOneState(state)
-val.then(data => {console.log(data)})
