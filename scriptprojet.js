@@ -42,20 +42,20 @@ var xmax = -13763557.061141372;
 var ymin = 5310233.229029364
 var ymax = 5647779.145936615;
 
-{"xmin":-14101102.97804862, "xmax":-13763557.061141372, "ymax":5647779.145936615, "ymin":5310233.229029364}
 
+// https://services1.arcgis.com/4yjifSiIG17X0gW4/ArcGIS/rest/services/Fast_Food_Restaurants/FeatureServer/1/query?where=&objectIds=&time=&geometry=%7B%22xmin%22%3A-14101102.97804862%2C+%22xmax%22%3A-13763557.061141372%2C+%22ymax%22%3A5647779.145936615%2C+%22ymin%22%3A5310233.229029364%7D&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&resultType=none&distance=0.0&units=esriSRUnit_Meter&returnGeodetic=false&outFields=&returnGeometry=true&featureEncoding=esriDefault&multipatchOption=xyFootprint&maxAllowableOffset=&geometryPrecision=&outSR=&datumTransformation=&applyVCSProjection=false&returnIdsOnly=false&returnUniqueIdsOnly=false&returnCountOnly=false&returnExtentOnly=false&returnQueryGeometry=false&returnDistinctValues=false&cacheHint=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&having=&resultOffset=&resultRecordCount=&returnZ=false&returnM=false&returnExceededLimitFeatures=true&quantizationParameters=&sqlFormat=none&f=html&token=
+var fastFood2Request = "https://services1.arcgis.com/4yjifSiIG17X0gW4/arcgis/rest/services/Fast_Food_Restaurants/FeatureServer/2/query?f=json&returnGeometry=true&spatialRel=esriSpatialRelIntersects&geometry=%7B%22xmin%22%3A"+ xmin + "%2C%22ymin%22%3A" + ymin + "%2C%22xmax%22%3A"+ xmax +"%2C%22ymax%22%3A"+ ymax +"%2C%22spatialReference%22%3A%7B%22wkid%22%3A4326%7D%7D&geometryType=esriGeometryEnvelope&inSR=102100&outFields=*&returnCentroid=false&returnExceededLimitFeatures=false&maxRecordCountFactor=3&outSR=102100&resultType=tile&quantizationParameters=%7B%22mode%22%3A%22view%22%2C%22originPosition%22%3A%22upperLeft%22%2C%22tolerance%22%3A611.4962262812505%2C%22extent%22%3A%7B%22xmin%22%3A-14088873.053522997%2C%22ymin%22%3A5322463.153554989%2C%22xmax%22%3A-13775786.985666996%2C%22ymax%22%3A5635549.22141099%2C%22spatialReference%22%3A%7B%22wkid%22%3A102100%7D%7D%7D"
 
-
-// for(i in [0, 1, 2, 3]){
-// }
-var fastFoodRequest = "https://services1.arcgis.com/4yjifSiIG17X0gW4/arcgis/rest/services/Fast_Food_Restaurants/FeatureServer/2/query?f=json&returnGeometry=true&spatialRel=esriSpatialRelIntersects&geometry=%7B%22xmin%22%3A"+ xmin + "%2C%22ymin%22%3A" + ymin + "%2C%22xmax%22%3A"+ xmax +"%2C%22ymax%22%3A"+ ymax +"%2C%22spatialReference%22%3A%7B%22wkid%22%3A102100%7D%7D&geometryType=esriGeometryEnvelope&inSR=102100&outFields=*&returnCentroid=false&returnExceededLimitFeatures=false&maxRecordCountFactor=3&outSR=102100&resultType=tile&quantizationParameters=%7B%22mode%22%3A%22view%22%2C%22originPosition%22%3A%22upperLeft%22%2C%22tolerance%22%3A611.4962262812505%2C%22extent%22%3A%7B%22xmin%22%3A-14088873.053522997%2C%22ymin%22%3A5322463.153554989%2C%22xmax%22%3A-13775786.985666996%2C%22ymax%22%3A5635549.22141099%2C%22spatialReference%22%3A%7B%22wkid%22%3A102100%7D%7D%7D"
+console.log(fastFood2Request)
+// Transformation en coordonnée GPS et non WebMercator
+var fastFood0RequestCount = "https://services1.arcgis.com/4yjifSiIG17X0gW4/ArcGIS/rest/services/Fast_Food_Restaurants/FeatureServer/0/query?where=&objectIds=&time=&geometry=%7B%22xmin%22%3A-169.9146%2C+%22xmax%22%3A-129.993%2C+%22ymax%22%3A71.5232%2C+%22ymin%22%3A52.5964%7D&geometryType=esriGeometryEnvelope&inSR=%7B%22wkid%22%3A4326%7D&spatialRel=esriSpatialRelIntersects&resultType=none&distance=0.0&units=esriSRUnit_Meter&returnGeodetic=false&outFields=&returnGeometry=true&featureEncoding=esriDefault&multipatchOption=xyFootprint&maxAllowableOffset=&geometryPrecision=&outSR=&datumTransformation=&applyVCSProjection=false&returnIdsOnly=false&returnUniqueIdsOnly=false&returnCountOnly=true&returnExtentOnly=false&returnQueryGeometry=false&returnDistinctValues=false&cacheHint=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&having=&resultOffset=&resultRecordCount=&returnZ=false&returnM=false&returnExceededLimitFeatures=true&quantizationParameters=&sqlFormat=none&f=pjson&token="
 
 
 var StateBounderie = "https://gist.githubusercontent.com/jakebathman/719e8416191ba14bb6e700fc2d5fccc5/raw/8c851d4b081a1d9370c25fcb25a502c8692b11fe/state_boundaries.json"
 
 var res;
 
-fetch(fastFoodRequest)
+fetch(fastFood2Request)
     .then(data => { data.json()
         .then(
             data => { 
@@ -64,3 +64,11 @@ fetch(fastFoodRequest)
     });
 
 console.log(res);
+
+// ################################################## Us data request ##################################################
+
+// Issue du site : https://www.ers.usda.gov/data-products/food-environment-atlas/go-to-the-atlas.aspx
+// Partie requete : https://gis.ers.usda.gov/arcgis/rest/services/fa_restaurants/MapServer/6/query
+
+fetch("https://gis.ers.usda.gov/arcgis/rest/services/fa_restaurants/MapServer/identify?f=json&geometry=%7B%22x%22%3A545663.8239374293%2C%22y%22%3A2305272.5098907053%2C%22spatialReference%22%3A%7B%22wkid%22%3A102039%7D%7D&tolerance=2&returnGeometry=true&mapExtent=%7B%22xmin%22%3A-447841.33739011706%2C%22ymin%22%3A-19399.697660024103%2C%22xmax%22%3A3123582.4451598865%2C%22ymax%22%3A2837739.3283799784%2C%22spatialReference%22%3A%7B%22wkid%22%3A102039%7D%7D&imageDisplay=1100%2C880%2C96&geometryType=esriGeometryPoint&sr=102039&layers=all%3A3")
+.then(data => {data.json().then(res => {console.log(res)})})
