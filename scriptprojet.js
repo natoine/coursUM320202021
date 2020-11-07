@@ -42,7 +42,15 @@ var xmax = -13763557.061141372;
 var ymin = 5310233.229029364
 var ymax = 5647779.145936615;
 
+{"xmin":-14101102.97804862, "xmax":-13763557.061141372, "ymax":5647779.145936615, "ymin":5310233.229029364}
+
+
+
+// for(i in [0, 1, 2, 3]){
+// }
 var fastFoodRequest = "https://services1.arcgis.com/4yjifSiIG17X0gW4/arcgis/rest/services/Fast_Food_Restaurants/FeatureServer/2/query?f=json&returnGeometry=true&spatialRel=esriSpatialRelIntersects&geometry=%7B%22xmin%22%3A"+ xmin + "%2C%22ymin%22%3A" + ymin + "%2C%22xmax%22%3A"+ xmax +"%2C%22ymax%22%3A"+ ymax +"%2C%22spatialReference%22%3A%7B%22wkid%22%3A102100%7D%7D&geometryType=esriGeometryEnvelope&inSR=102100&outFields=*&returnCentroid=false&returnExceededLimitFeatures=false&maxRecordCountFactor=3&outSR=102100&resultType=tile&quantizationParameters=%7B%22mode%22%3A%22view%22%2C%22originPosition%22%3A%22upperLeft%22%2C%22tolerance%22%3A611.4962262812505%2C%22extent%22%3A%7B%22xmin%22%3A-14088873.053522997%2C%22ymin%22%3A5322463.153554989%2C%22xmax%22%3A-13775786.985666996%2C%22ymax%22%3A5635549.22141099%2C%22spatialReference%22%3A%7B%22wkid%22%3A102100%7D%7D%7D"
+
+
 var StateBounderie = "https://gist.githubusercontent.com/jakebathman/719e8416191ba14bb6e700fc2d5fccc5/raw/8c851d4b081a1d9370c25fcb25a502c8692b11fe/state_boundaries.json"
 
 var res;
@@ -55,4 +63,4 @@ fetch(fastFoodRequest)
         })
     });
 
-console.log(data);
+console.log(res);
