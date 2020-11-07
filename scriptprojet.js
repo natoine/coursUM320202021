@@ -9,7 +9,7 @@ function etats(){
       // Work with JSON data here
       res=JSON.stringify(data)
       for (var i  in data){
-        $("#"+i).attr("onmouseover", "drawInfobulle('"+data[i]+"', '#"+i+"')");
+        $("#"+i).attr("onmouseover", "drawInfobulle('"+data[i]+"', '"+i+"')");
         $("#"+i).attr("onmouseleave", "removeInfobulle()");
       }
     })
@@ -38,15 +38,58 @@ function drawInfobulle(element,index){
         $("#liste").append(str);
       }
       //donnees.html(str);
-    })
-    fetch("https://public.opendatasoft.com/api/records/1.0/search/?rows=40&start=40&dataset=residential-segregation-data-for-us-metro-areas&timezone=Europe%2FBerlin&lang=en")
+    });
+    console.log(index);
+    fetch("https://public.opendatasoft.com/api/records/1.0/search/?dataset=residential-segregation-data-for-us-metro-areas&q=state_code%3D%"+index+"&facet=cbsa&facet=msa&facet=state_code")
       .then((response) => {
         return response.json()
       })
       .then((data) => {
         // Work with JSON data here
         res=JSON.stringify(data)
-        console.log(data['records'][1]['fields']);
+        var hispanic = 0;
+        var black = 0;
+        var white = 0;
+        var asian = 0;
+        for(var i in data['records']){
+          white+=data['records'][i]['fields']['white_population_non_hispanic'];
+          hispanic+=data['records'][i]['fields']['hispanic_population'];
+          asian+=data['records'][i]['fields']['asian_population'];
+          black+=data['records'][i]['fields']['black_population'];
+        }
+        var ctx = document.getElementById('myChart').getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'pie',
+    data: {
+        labels: ['White Population', 'Hispanic Population', 'Asian Population', 'Black Population'],
+        datasets: [{
+            label: 'Distribution of population',
+            data: [white, hispanic, asian, black],
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
+});
       })
 }
 function removeInfobulle(){

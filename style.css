@@ -1,5 +1,6 @@
 body{
-    font-family: sans-serif;
+  font-family: 'Tajawal', sans-serif;
+  font-size: 120%;
 }
 
 svg{
@@ -28,14 +29,19 @@ svg{
   font-size: 200%;
 }
 #information{
-  background: #B404AE;
+  background: white;
   width: 35%;
   height: 80%;
-  margin-top: -50%;
+  margin-top: -45%;
   float: right;
   border-radius: 20px;
 }
 
 #infobulle{
   padding: 20px;
+}
+
+canvas{
+  width: 50%;
+  height: 50%;
 }
