@@ -69,6 +69,13 @@ console.log(res);
 
 // Issue du site : https://www.ers.usda.gov/data-products/food-environment-atlas/go-to-the-atlas.aspx
 // Partie requete : https://gis.ers.usda.gov/arcgis/rest/services/fa_restaurants/MapServer/6/query
-
-fetch("https://gis.ers.usda.gov/arcgis/rest/services/fa_restaurants/MapServer/identify?f=json&geometry=%7B%22x%22%3A545663.8239374293%2C%22y%22%3A2305272.5098907053%2C%22spatialReference%22%3A%7B%22wkid%22%3A102039%7D%7D&tolerance=2&returnGeometry=true&mapExtent=%7B%22xmin%22%3A-447841.33739011706%2C%22ymin%22%3A-19399.697660024103%2C%22xmax%22%3A3123582.4451598865%2C%22ymax%22%3A2837739.3283799784%2C%22spatialReference%22%3A%7B%22wkid%22%3A102039%7D%7D&imageDisplay=1100%2C880%2C96&geometryType=esriGeometryPoint&sr=102039&layers=all%3A3")
-.then(data => {data.json().then(res => {console.log(res)})})
+var state = "WI"
+var url = "https://gis.ers.usda.gov/arcgis/rest/services/fa_restaurants/MapServer/2/query?where=State+%3D+%27"+state+"%27&text=&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=4269&spatialRel=esriSpatialRelIntersects&distance=&units=esriSRUnit_Meter&relationParam=&outFields=*&returnGeometry=true&returnTrueCurves=false&maxAllowableOffset=&geometryPrecision=&outSR=4326&havingClause=&returnIdsOnly=false&returnCountOnly=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdbVersion=&historicMoment=&returnDistinctValues=false&resultOffset=&resultRecordCount=&returnExtentOnly=false&datumTransformation=&parameterValues=&rangeValues=&quantizationParameters=&featureEncoding=esriDefault&f=pjson"
+fetch(url)
+.then(
+    data => {
+        data.json().then(res => {
+            console.log(res)
+        })
+    }
+)
