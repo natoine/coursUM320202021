@@ -9,16 +9,16 @@ function etats(){
       // Work with JSON data here
       res=JSON.stringify(data)
       for (var i  in data){
-        $("#"+i).attr("onmouseover", "drawInfobulle('"+data[i]+"', '"+i+"')");
+        $("#"+i).attr("onclick", "drawInfobulle('"+data[i]+"', '"+i+"')");
         $("#"+i).attr("onmouseleave", "removeInfobulle()");
       }
     })
 }
 
 function drawInfobulle(element,index){
-  var infobulle = $("#infobulle");
-  var donnees =$('#donnees');
+  var infobulle = $("#nom_etat");
   infobulle.html(element);
+  $('#liste').empty();
   fetch("https://public.opendatasoft.com/api/records/1.0/search/?dataset=us-2016-primary-results&q=state%3D'"+element+"'")
     .then((response) => {
       return response.json()
@@ -57,44 +57,57 @@ function drawInfobulle(element,index){
           asian+=data['records'][i]['fields']['asian_population'];
           black+=data['records'][i]['fields']['black_population'];
         }
+        $('myChart').empty();
         var ctx = document.getElementById('myChart').getContext('2d');
-var myChart = new Chart(ctx, {
-    type: 'pie',
-    data: {
-        labels: ['White Population', 'Hispanic Population', 'Asian Population', 'Black Population'],
-        datasets: [{
-            label: 'Distribution of population',
-            data: [white, hispanic, asian, black],
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)'
-            ],
-            borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)'
-            ],
-            borderWidth: 1
-        }]
-    },
-    options: {
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero: true
+        var myChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: ['White Population', 'Hispanic Population', 'Asian Population', 'Black Population'],
+                datasets: [{
+                    label: 'Distribution of population',
+                    data: [white, hispanic, asian, black],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    xAxes: [{
+                      gridLines: {
+                        display: false
+                      },
+                      ticks: {
+                             display: false
+                      }
+                    }],
+                    yAxes: [{
+                      gridLines: {
+                        display: false
+                      },
+                      ticks: {
+                             display: false
+                      }
+                    }]
                 }
-            }]
-        }
-    }
-});
+            }
+        });
       })
 }
+
+
 function removeInfobulle(){
-  $("#liste").append('');
-  var donnees =$('#donnees');
-  donnees.html('')
+  //$("#myChart").detach();
+  //$("#liste").detach();
   console.log('quitter');
 }
