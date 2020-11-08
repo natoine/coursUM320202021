@@ -30,7 +30,7 @@ svg{
 #information{
   background: white;
   width: 50%;
-  height: 70%;
+  height: 100%;
   float: right;
   border-radius: 20px;
 }
@@ -41,6 +41,12 @@ svg{
 }
 
 #graphique{
+  width: 70%;
+  margin-left: auto;
+  margin-right: auto;
+  height: auto;
+}
+#repartition_votes{
   width: 70%;
   margin-left: auto;
   margin-right: auto;

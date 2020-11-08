@@ -26,20 +26,69 @@ function drawInfobulle(element,index){
     .then((data) => {
       // Work with JSON data here
       res=JSON.stringify(data)
+      var democrats = 0;
+      var republican = 0;
+      var other = 0;
       for (var i  in data['records']){
+        if (data['records'][i]['fields']['party']=="Republican"){
+          republican+=data['records'][i]['fields']['votes'];
+        }
+        else if (data['records'][i]['fields']['party']=="Democrat"){
+          democrats+=data['records'][i]['fields']['votes'];
+        }
+        else {
+          other+=data['records'][i]['fields']['votes'];
+        }
+        var ctx = document.getElementById('votes').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'horizontalBar',
+            data: {
+                labels: ['Republicans', 'Democrats','Others'],
+                datasets: [{
+                    label: 'Repartition of votes',
+                    data: [republican, democrats, other],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    xAxes: [{
+                      gridLines: {
+                        display: false
+                      },
+                      ticks: {
+                             display: false
+                      }
+                    }],
+                    yAxes: [{
+                      gridLines: {
+                        display: false
+                      }
+                    }]
+                }
+            }
+        });
         var str="<li>";
         str+=data['records'][i]['fields']['candidate'];
         str+=' : ';
-        // //str+=data['records'][i]['fields']['votes'];
+        str+=data['records'][i]['fields']['votes'];
         // str+='Proportion de votes : '+data['records'][i]['fields']['fraction_votes'];
         // //str+='Comté : '+data['records'][i]['fields']['county'];
         str+=data['records'][i]['fields']['party']+'</li>';
         // str+='\n';
         $("#liste").append(str);
       }
-      //donnees.html(str);
     });
-    console.log(index);
     fetch("https://public.opendatasoft.com/api/records/1.0/search/?dataset=residential-segregation-data-for-us-metro-areas&q=state_code%3D%"+index+"&facet=cbsa&facet=msa&facet=state_code")
       .then((response) => {
         return response.json()
