@@ -52,3 +52,7 @@ svg{
   margin-right: auto;
   height: auto;
 }
+
+h1{
+  float: left;
+}
