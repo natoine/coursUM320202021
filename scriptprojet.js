@@ -3,6 +3,7 @@ menu_deroulant();
 function affiche_table_hopital(){
     if (document.getElementById("dep-select").value == "--Veuillez choisir un département--"){
         alert("Veuillez choisir un département");
+        return;
     }
     fetch('https://coronavirusapi-france.now.sh/AllLiveData', { method: 'GET',
         headers: {},
