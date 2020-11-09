@@ -1,8 +1,11 @@
 menu_deroulant();
 
+// Fonction pour afficher les informations + la table des lieux de dépistage
+// Créer une alerte si aucun département est sélectionné
 function affiche_table_hopital(){
     if (document.getElementById("dep-select").value == "--Veuillez choisir un département--"){
         alert("Veuillez choisir un département");
+        return;
     }
     fetch('https://coronavirusapi-france.now.sh/AllLiveData', { method: 'GET',
         headers: {},
@@ -10,14 +13,14 @@ function affiche_table_hopital(){
         cache: 'default'}).then(
             function(response){
                 response.json().then(function(data){
-                    //Reccup le code postal 
+                    //Recupère le code postal 
                     var cp= [] ;
                     let L = data["allLiveFranceData"].length;
                     for (let l=0;l<L;l++){
                         cp.push(String(data["allLiveFranceData"][l]["code"].replace(/[^\d]/g, "")));
                     }
 
-                    //Filtre les donnees en fonction du dep selec
+                    //Filtre les données en fonction du dep selec
                     var result_filter = [];
                     for(let y =0; y<L; y++){
                         if(cp[y]==document.getElementById("dep-select").value){
@@ -26,7 +29,9 @@ function affiche_table_hopital(){
                         }
                     }
 
+                    // Affiche les informations récupérées de la première API + un gif
                     div3=document.getElementById('div3');
+                    document.getElementById('div4').innerHTML = "";
                     var img = document.createElement('img');
                     img.src = 'doute.gif';
                     document.getElementById('div4').appendChild(img);
@@ -42,7 +47,7 @@ function affiche_table_hopital(){
                     div5.innerHTML="Un doute ? Pas de panique ! Voici les lieux où vous pouvez vous faire dépister dans votre département :"
             })
     })
-
+    // Affiche la table avec les lieux de dépistage du département
     fetch('https://www.data.gouv.fr/fr/datasets/r/7c0f7980-1804-4382-a2a8-1b4af2e10d32', { 
         method: 'GET',
         headers: {},
@@ -62,7 +67,7 @@ function affiche_table_hopital(){
         )
     })
 }
-
+// Fonction qui permet de créer un menu déroulant avec les départements
 function menu_deroulant(){
     fetch('https://coronavirusapi-france.now.sh/AllLiveData', { method: 'GET',
         headers: {},
@@ -87,35 +92,14 @@ function menu_deroulant(){
     })    
 }
 
-//Fonction générale qui va transformer et afficher les données des test covid
-function affiche_table_test(){
-    fetch('https://www.data.gouv.fr/fr/datasets/r/7c0f7980-1804-4382-a2a8-1b4af2e10d32', { 
-        method: 'GET',
-        headers: {},
-        mode: 'cors',
-        cache: 'default'}).then(function(response){
-            response.text().then(function(data){
-                //library papaperse qui permet de transformer un csv en array 
-                    //et créer des clefs et des valeurs pour chaque champ
-                result = Papa.parse(data,{header: true});
-                //map: transforme un tableau en un autre tableau
-                //transf_donnee_web_a_table: prend un élément du tableau original 
-                    //et retourne un élément dans un nouveau tableau
-                result_mod = result.data.map(transf_donnee_web_a_table);
-                //appelle une autre fonction
-                affiche_table_avec_donnees(result_mod);
-            }
-        )
-    })
-}
-
-//Fonction qui affiche les éléments dans le html du test covid
+//Fonction qui affiche les éléments dans le html des lieux de test covid
 function affiche_table_avec_donnees(result_mod) {
     let tab = document.createElement("table");
     tab.className = 'table table-striped table-dark';
     let tead = document.createElement("thead");
     tab.appendChild(tead);
     tab.style.textAlign="center";
+    document.getElementById('maincontent').innerHTML = "";
     document.getElementById("maincontent").appendChild(tab);
     let newLigne = document.createElement("tr");
     tab.appendChild(newLigne);
@@ -131,6 +115,7 @@ function affiche_table_avec_donnees(result_mod) {
     }
     console.log(result_mod.length);
 
+    //Permet de filtrer en fonction du départemetn selectionné
     var result_filter = [];
     for(let y =0; y<result_mod.length-1; y++){
         if(result_mod[y].codePostal===document.getElementById("dep-select").value){
@@ -159,7 +144,7 @@ function affiche_table_avec_donnees(result_mod) {
 }
 
 //Fonction qui créer des clefs et des valeurs pour chaque champ
-    //+ ajoute une colonne pour le dep du test covid
+    //+ ajoute une colonne pour le dep des lieux de test covid
 function transf_donnee_web_a_table(element) {
     if(element.adresse!=null){
         let cp= String(element.adresse.replace(/[^\d]/g, "")) ;
