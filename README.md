@@ -18,7 +18,7 @@ Les principales difficultés :
 
 - Trouver les sources de données cohérentes les unes avec les autres et où l'on pouvait effectuer des fetchs.
 
-- Exploiter le fichier CSV (utilisation de la librairie "papaperse" qui permet de transformer un fichier csv en array)
+- Exploiter le fichier CSV (utilisation de la librairie `papaperse` qui permet de transformer un fichier csv en array)
 
 - Dans le cas des deux sources de données que nous avons utilisé, les lier avec le département, celui-ci n'étant pas sous la même forme dans les deux sources : dans la première source les codes postaux étaient de la forme suivante "DEP-01" et dans la deuxième il n'y avait pas de colonne département mais seulement l'adresse complète. Nous avons donc fait un code qui pour la première source de données (fichier JSON) on récupère seulement les chiffres présent dans le code postal (pour "DEP-01" nous récupérons "01") et pour la deuxième source (fichier CSV) on récupère seulement les chiffres présent dans l'adresse ( pour "10 rue Molière 34000 Montpellier" nous récupérons "1034000"), de ce que nous récupérons, nous gardons que les 5 derniers chiffres (ici de "1034000" nous passsons à "34000"), ce qui nous permet de récupérer le code postal, dont nous gardons après que les deux premiers chiffres ("34000" à "34") afin de pouvoir le lier à l'autre source de données.
 
