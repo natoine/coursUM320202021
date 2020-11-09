@@ -119,7 +119,7 @@ function affiche_table_avec_donnees(result_mod) {
     document.getElementById("maincontent").appendChild(tab);
     let newLigne = document.createElement("tr");
     tab.appendChild(newLigne);
-    let headers = ["Hopital", "Adresse", "Code Postal", "Prélévement", "Public",
+    let headers = ["Hopital", "Adresse", "Code Postal", "Prélèvement", "Public",
                     "Horaire", "Rendez_vous", "Téléphone", "Site Web"];
 
     for (let i = 0; i < headers.length; i++) {
