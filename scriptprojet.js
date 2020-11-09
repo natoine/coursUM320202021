@@ -35,11 +35,11 @@ function affiche_table_hopital(){
 
                     div3.innerHTML = "<br> En "+result_filter[0]["nom"]+" ("+cp1+")"+", le "+
                     result_filter[0]["date"]+", il y a "+result_filter[0]["hospitalises"]+
-                    " patient(s) hospitalisé(s), "+result_filter[0]["reanimation"]+" en reanimation. On dénombre "+result_filter[0]["nouvellesHospitalisations"]
-                    +" nouvelle(s) hopitalisation(s) et "+result_filter[0]["nouvellesReanimations"]+" nouvelle(s) réanimation(s). Le nombre de décès a augmenté de "+
-                    result_filter[0]["deces"]+". "+"<br>"+result_filter[0]["gueris"]+" personnes ont été guéris."
+                    " patient(s) hospitalisé(s), "+result_filter[0]["reanimation"]+" en réanimation. On dénombre "+result_filter[0]["nouvellesHospitalisations"]
+                    +" nouvelle(s) hospitalisation(s) et "+result_filter[0]["nouvellesReanimations"]+" nouvelle(s) réanimation(s). Le nombre de décès a augmenté de "+
+                    result_filter[0]["deces"]+". "+"<br>"+result_filter[0]["gueris"]+" personnes ont été guéries."
 
-                    div5.innerHTML="Un doute ? Pas de panique ! Voici les lieux où se faire dépister dans votre département :"
+                    div5.innerHTML="Un doute ? Pas de panique ! Voici les lieux où vous pouvez vous faire dépister dans votre département :"
             })
     })
 
