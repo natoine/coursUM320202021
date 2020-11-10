@@ -2,7 +2,7 @@ menu_deroulant();
 
 // Fonction pour afficher les informations + la table des lieux de dépistage
 // Créer une alerte si aucun département est sélectionné
-function affiche_table_hopital(){
+function affiche_donnees(){
     if (document.getElementById("dep-select").value == "--Veuillez choisir un département--"){
         alert("Veuillez choisir un département");
         return;
@@ -13,38 +13,8 @@ function affiche_table_hopital(){
         cache: 'default'}).then(
             function(response){
                 response.json().then(function(data){
-                    //Recupère le code postal 
-                    var cp= [] ;
-                    let L = data["allLiveFranceData"].length;
-                    for (let l=0;l<L;l++){
-                        cp.push(String(data["allLiveFranceData"][l]["code"].replace(/[^\d]/g, "")));
-                    }
 
-                    //Filtre les données en fonction du dep selec
-                    var result_filter = [];
-                    for(let y =0; y<L; y++){
-                        if(cp[y]==document.getElementById("dep-select").value){
-                            result_filter.push(data["allLiveFranceData"][y]);
-                            cp1=cp[y];
-                        }
-                    }
-
-                    // Affiche les informations récupérées de la première API + un gif
-                    div3=document.getElementById('div3');
-                    document.getElementById('div4').innerHTML = "";
-                    var img = document.createElement('img');
-                    img.src = 'doute.gif';
-                    document.getElementById('div4').appendChild(img);
-
-                    div5=document.getElementById('div5');
-
-                    div3.innerHTML = "<br> En "+result_filter[0]["nom"]+" ("+cp1+")"+", le "+
-                    result_filter[0]["date"]+", il y a "+result_filter[0]["hospitalises"]+
-                    " patient(s) hospitalisé(s), "+result_filter[0]["reanimation"]+" en réanimation. On dénombre "+result_filter[0]["nouvellesHospitalisations"]
-                    +" nouvelle(s) hospitalisation(s) et "+result_filter[0]["nouvellesReanimations"]+" nouvelle(s) réanimation(s). Le nombre de décès a augmenté de "+
-                    result_filter[0]["deces"]+". "+"<br>"+result_filter[0]["gueris"]+" personnes ont été guéries."
-
-                    div5.innerHTML="Un doute ? Pas de panique ! Voici les lieux où vous pouvez vous faire dépister dans votre département :"
+                    affiche_phrase(data);
             })
     })
     // Affiche la table avec les lieux de dépistage du département
@@ -62,10 +32,45 @@ function affiche_table_hopital(){
                     //et retourne un élément dans un nouveau tableau
                 result_mod = result.data.map(transf_donnee_web_a_table);
                 //appelle une autre fonction
-                affiche_table_avec_donnees(result_mod);
+                affiche_tableau(result_mod);
             }
         )
     })
+}
+
+function affiche_phrase(data){
+        //Recupère le code postal 
+        var cp= [] ;
+        let L = data["allLiveFranceData"].length;
+        for (let l=0;l<L;l++){
+            cp.push(String(data["allLiveFranceData"][l]["code"].replace(/[^\d]/g, "")));
+        }
+
+        //Filtre les données en fonction du dep selec
+        var result_filter = [];
+        for(let y =0; y<L; y++){
+            if(cp[y]==document.getElementById("dep-select").value){
+                result_filter.push(data["allLiveFranceData"][y]);
+                cp1=cp[y];
+            }
+        }
+
+        // Affiche les informations récupérées de la première API + un gif
+        div3=document.getElementById('div3');
+        document.getElementById('div4').innerHTML = "";
+        var img = document.createElement('img');
+        img.src = 'doute.gif';
+        document.getElementById('div4').appendChild(img);
+
+        div5=document.getElementById('div5');
+
+        div3.innerHTML = "<br> En "+result_filter[0]["nom"]+" ("+cp1+")"+", le "+
+        result_filter[0]["date"]+", il y a "+result_filter[0]["hospitalises"]+
+        " patient(s) hospitalisé(s), "+result_filter[0]["reanimation"]+" en réanimation. On dénombre "+result_filter[0]["nouvellesHospitalisations"]
+        +" nouvelle(s) hospitalisation(s) et "+result_filter[0]["nouvellesReanimations"]+" nouvelle(s) réanimation(s). Le nombre de décès a augmenté de "+
+        result_filter[0]["deces"]+". "+"<br>"+result_filter[0]["gueris"]+" personnes ont été guéries."
+
+        div5.innerHTML="Un doute ? Pas de panique ! Voici les lieux où vous pouvez vous faire dépister dans votre département :"
 }
 // Fonction qui permet de créer un menu déroulant avec les départements
 function menu_deroulant(){
@@ -77,7 +82,9 @@ function menu_deroulant(){
                 response.json().then(function(data){
                 //Récupère les noms des départements et les affiche dans le menu déroulant
                     var cp= [] ;
-                    for (let l=0;l<101;l++){
+                    let L = data["allLiveFranceData"].length;
+
+                    for (let l=0;l<L;l++){
                         cp.push(String(data["allLiveFranceData"][l]["code"].replace(/[^\d]/g, "")));
                     }
                     const depselect= document.getElementById("dep-select");
@@ -93,7 +100,7 @@ function menu_deroulant(){
 }
 
 //Fonction qui affiche les éléments dans le html des lieux de test covid
-function affiche_table_avec_donnees(result_mod) {
+function affiche_tableau(result_mod) {
     let tab = document.createElement("table");
     tab.className = 'table table-striped table-dark';
     let tead = document.createElement("thead");
