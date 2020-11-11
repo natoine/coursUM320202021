@@ -1,39 +1,160 @@
-//################ Source donnée disponible ################
+function etats(){
+  fetch("https://gist.githubusercontent.com/mshafrir/2646763/raw/8b0dbb93521f5d6889502305335104218454c2bf/states_hash.json")
+    .then((response) => {
+      return response.json()
+    })
+    .then((data) => {
+      // Work with JSON data here
+      res=JSON.stringify(data)
+      for (var i  in data){
+        $("#"+i).attr("onclick", "drawInfobulle('"+data[i]+"', '"+i+"')");
+        $("#"+i).attr("onmouseleave", "removeInfobulle()");
+      }
+    })
+}
 
-// key for link us_code and name state
-var linkState = "https://gist.githubusercontent.com/mshafrir/2646763/raw/8b0dbb93521f5d6889502305335104218454c2bf/states_hash.json";
-// Data americaine presidentielle
-var president = "https://public.opendatasoft.com/api/records/1.0/search/?dataset=us-2016-primary-results&q=state%3DTexas&facet=state&facet=county&facet=party&facet=candidate"
-// Segregation sociale au USA  : https://public.opendatasoft.com/explore/dataset/residential-segregation-data-for-us-metro-areas/table/?location=3,46.23229,-124.59801&basemap=jawg.streets
-var seggregation = "https://public.opendatasoft.com/api/records/1.0/search/?rows=40&start=40&dataset=residential-segregation-data-for-us-metro-areas&timezone=Europe%2FBerlin&lang=fr"
-// FastFood in USA
-var fastFoodPBF = "https://services1.arcgis.com/4yjifSiIG17X0gW4/arcgis/rest/services/Fast_Food_Restaurants/FeatureServer/2/query?f=pbf&returnGeometry=true&spatialRel=esriSpatialRelIntersects&geometry=%7B%22xmin%22%3A-14101102.97804862%2C%22ymin%22%3A5310233.229029364%2C%22xmax%22%3A-13763557.061141372%2C%22ymax%22%3A5647779.145936615%2C%22spatialReference%22%3A%7B%22wkid%22%3A102100%7D%7D&geometryType=esriGeometryEnvelope&inSR=102100&outFields=*&returnCentroid=false&returnExceededLimitFeatures=false&maxRecordCountFactor=3&outSR=102100&resultType=tile&quantizationParameters=%7B%22mode%22%3A%22view%22%2C%22originPosition%22%3A%22upperLeft%22%2C%22tolerance%22%3A611.4962262812505%2C%22extent%22%3A%7B%22xmin%22%3A-14088873.053522997%2C%22ymin%22%3A5322463.153554989%2C%22xmax%22%3A-13775786.985666996%2C%22ymax%22%3A5635549.22141099%2C%22spatialReference%22%3A%7B%22wkid%22%3A102100%7D%7D%7D"
-
-var link;
-fetch(linkState)
-    .then(data => {data.json()
-        .then(data => {
-            link = data; 
-            CrossData();
-        })
+function drawInfobulle(element,index){
+  var infobulle = $("#nom_etat");
+  infobulle.html(element);
+  $('#liste').empty();
+  fetch("https://public.opendatasoft.com/api/records/1.0/search/?dataset=us-2016-primary-results&q=state%3D'"+element+"'")
+    .then((response) => {
+      return response.json()
+    })
+    .then((data) => {
+      // Work with JSON data here
+      res=JSON.stringify(data)
+      var democrats = 0;
+      var republican = 0;
+      var other = 0;
+      for (var i  in data['records']){
+        if (data['records'][i]['fields']['party']=="Republican"){
+          republican+=data['records'][i]['fields']['votes'];
+        }
+        else if (data['records'][i]['fields']['party']=="Democrat"){
+          democrats+=data['records'][i]['fields']['votes'];
+        }
+        else {
+          other+=data['records'][i]['fields']['votes'];
+        }
+        var ctx = document.getElementById('votes').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'horizontalBar',
+            data: {
+                labels: ['Republicans', 'Democrats','Others'],
+                datasets: [{
+                    label: 'Repartition of votes',
+                    data: [republican, democrats, other],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    xAxes: [{
+                      gridLines: {
+                        display: false
+                      },
+                      ticks: {
+                             display: false
+                      }
+                    }],
+                    yAxes: [{
+                      gridLines: {
+                        display: false
+                      }
+                    }]
+                }
+            }
+        });
+        var str="<li>";
+        str+=data['records'][i]['fields']['candidate'];
+        str+=' : ';
+        str+=data['records'][i]['fields']['votes'];
+        // str+='Proportion de votes : '+data['records'][i]['fields']['fraction_votes'];
+        // //str+='Comté : '+data['records'][i]['fields']['county'];
+        str+=data['records'][i]['fields']['party']+'</li>';
+        // str+='\n';
+        $("#liste").append(str);
+      }
     });
-
-
-function CrossData(){
-    for(li in link){
-        takeVoteData("https://public.opendatasoft.com/api/records/1.0/search/?dataset=us-2016-primary-results&q=state%3D"+link[li]+"&facet=state&facet=county&facet=party&facet=candidate");
-        takeSeggreg("https://public.opendatasoft.com/api/records/1.0/search/?dataset=residential-segregation-data-for-us-metro-areas&q=msa%3D"+ li +"&rows=4&facet=cbsa&facet=msa&facet=state_code")
-    }
+    fetch("https://public.opendatasoft.com/api/records/1.0/search/?dataset=residential-segregation-data-for-us-metro-areas&q=state_code%3D%"+index+"&facet=cbsa&facet=msa&facet=state_code")
+      .then((response) => {
+        return response.json()
+      })
+      .then((data) => {
+        // Work with JSON data here
+        res=JSON.stringify(data)
+        var hispanic = 0;
+        var black = 0;
+        var white = 0;
+        var asian = 0;
+        for(var i in data['records']){
+          white+=data['records'][i]['fields']['white_population_non_hispanic'];
+          hispanic+=data['records'][i]['fields']['hispanic_population'];
+          asian+=data['records'][i]['fields']['asian_population'];
+          black+=data['records'][i]['fields']['black_population'];
+        }
+        $('myChart').empty();
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: ['White Population', 'Hispanic Population', 'Asian Population', 'Black Population'],
+                datasets: [{
+                    label: 'Distribution of population',
+                    data: [white, hispanic, asian, black],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    xAxes: [{
+                      gridLines: {
+                        display: false
+                      },
+                      ticks: {
+                             display: false
+                      }
+                    }],
+                    yAxes: [{
+                      gridLines: {
+                        display: false
+                      },
+                      ticks: {
+                             display: false
+                      }
+                    }]
+                }
+            }
+        });
+      })
 }
 
-function takeVoteData(url){
-    /**
-     * Code qui recupère les données issue du vote au État unie en 2016, ce code les partage dans un tableau html de données
-     *
-     */
-}
 
-function takeSeggreg(){
-    
+function removeInfobulle(){
+  //$("#myChart").detach();
+  //$("#liste").detach();
+  console.log('quitter');
 }
-        
