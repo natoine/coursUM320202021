@@ -1,105 +1,193 @@
-//################ Source donnée disponible ################
+// L'emplacement HTML des graphiques
+var ctx1 = $('#votes');
+var ctx2 = $('#myChart');
 
-// key for link us_code and name state
-var linkState = "https://gist.githubusercontent.com/mshafrir/2646763/raw/8b0dbb93521f5d6889502305335104218454c2bf/states_hash.json";
+// Les variables graphiques
+var char1;
+var char2;
 
-// Data americaine presidentielle
-var president = "https://public.opendatasoft.com/api/records/1.0/search/?dataset=us-2016-primary-results&q=state%3DTexas&facet=state&facet=county&facet=party&facet=candidate"
+function etats(){
+  fetch("https://gist.githubusercontent.com/mshafrir/2646763/raw/8b0dbb93521f5d6889502305335104218454c2bf/states_hash.json")
+    .then((response) => {
+      return response.json()
+    })
+    .then((data) => {
+      ctx1.hide();
+      ctx2.hide();
 
-// Segregation sociale au USA  : https://public.opendatasoft.com/explore/dataset/residential-segregation-data-for-us-metro-areas/table/?location=3,46.23229,-124.59801&basemap=jawg.streets
-var seggregation = "https://public.opendatasoft.com/api/records/1.0/search/?rows=40&start=40&dataset=residential-segregation-data-for-us-metro-areas&timezone=Europe%2FBerlin&lang=fr"
+      char1 = buildChar1();
+      char2 = buildChar2();
+      
+      for (var i  in data){
+        $("#"+i).attr("onclick", "drawInfobulle('"+data[i]+"', '"+i+"')");
+      }
+    })
+}
 
-// ############################ En suspense ! (It's your turn !) ############################
+function drawInfobulle(element,index){
+  ctx2.hide();
+  ctx1.hide();
 
-// 
-// url2 = "https://public.opendatasoft.com/api/records/1.0/search/?dataset=residential-segregation-data-for-us-metro-areas&q=msa%3D"+ li +"&rows=4&facet=cbsa&facet=msa&facet=state_code";
-
-var isTest = false;
-
-
-
-
-var link;
-var promiseDict = fetch(linkState)
-    .then(data => {return data.json()
-        .then(data => {
-            link = data; 
-            // Utilisation de la technique Promise.all() : https://openclassrooms.com/fr/courses/5543061-ecrivez-du-javascript-pour-le-web/5866911-parallelisez-plusieurs-requetes-http
-            return promiseDict = CrossDataWinnerFood();
-        })
+  // ################### Mise à jours du graphique 2 ###################
+  var infobulle = $("#nom_etat");
+  infobulle.html(element);
+  let taille = char1.data.datasets[0].data.length;
+  for(let i=0; i<taille;i++){ 
+    char1.data.datasets[0].data.pop();
+  }
+  char1.update();
+  fetch("https://public.opendatasoft.com/api/records/1.0/search/?dataset=us-2016-primary-results&q=state%3D'"+element+"'")
+    .then((response) => {
+      return response.json()
+    })
+    .then((data) => {
+      var democrats = 0;
+      var republican = 0;
+      var other = 0;
+      for (var i  in data['records']){
+        if (data['records'][i]['fields']['party']=="Republican"){
+          republican+=data['records'][i]['fields']['votes'];
+        }
+        else if (data['records'][i]['fields']['party']=="Democrat"){
+          democrats+=data['records'][i]['fields']['votes'];
+        }
+        else {
+          other+=data['records'][i]['fields']['votes'];
+        }
+      }
+      // Ajoute les données dynamiquement au graphique
+      d1 = [republican, democrats, other];
+      char1.data.datasets.forEach((dataset) => {
+        for(i in d1) dataset.data.push(d1[i]);
+      });
+      char1.update();
+      ctx1.show();
     });
 
-async function getVoteAndFood(state){
-    if(typeof promiseDict != "undefined"){
-        return await promiseDict[state].then(list =>{ // [vote, food]
-            return list;
-        })
-    } else {
-        console.log("Pas encore de valeur !")
+    // ################### Mise à jours du graphique 2 ###################
+    // Retire toute les données contenus dans le graphique !    
+    taille = char2.data.datasets[0].data.length;
+    for(let i=0; i<taille;i++){
+      char2.data.datasets[0].data.pop();
     }
-}
+    char2.update();
 
-
-getVoteAndFood("TX").then(data => {
-    console.log(data)
-})
-
-
-
-
-// ################################################## Cross Data ##################################################
-
-async function CrossDataWinnerFood(){
-    promiseDict = {}
-    for(li in link){
-        promiseDict[li]= Promise.all([await takeFastFoodVarForOneState(li), await takePresidentialVoteVarForOneState(link[li])]); 
-    }
-    return promiseDict;
-}
-
-
-// ################################################## Us presidential request ##################################################
-
-async function takePresidentialVoteVarForOneState(stateFullName){
-    let url = "https://public.opendatasoft.com/api/records/1.0/search/?dataset=us-2016-presidential-election-by-states&q=state%3D"+ stateFullName +"&facet=state&facet=winner";
-    return await fetch(url)
-    .then(
-        data => {
-            return data.json().then(res => {
-                if (typeof res["records"][0]["fields"]["winner"] != "undefined") return res["records"][0]["fields"]["winner"];
-                else return "error";
-            })
+    fetch("https://public.opendatasoft.com/api/records/1.0/search/?dataset=residential-segregation-data-for-us-metro-areas&q=state_code%3D%"+index+"&facet=cbsa&facet=msa&facet=state_code")
+      .then((response) => {
+        return response.json()
+      })
+      .then((data) => {
+        var hispanic = 0;
+        var black = 0;
+        var white = 0;
+        var asian = 0;
+        for(var i in data['records']){
+          white += data['records'][i]['fields']['white_population_non_hispanic'];
+          hispanic += data['records'][i]['fields']['hispanic_population'];
+          asian += data['records'][i]['fields']['asian_population'];
+          black += data['records'][i]['fields']['black_population'];
         }
-    )
+        if(white != 0 || hispanic != 0 || asian != 0 || black != 0){
+          // Ajoute les données dynamiquement au graphique
+          d = [white, hispanic, asian, black];
+          char2.data.datasets.forEach((dataset) => {
+            for(i in d){
+              dataset.data.push(d[i]);
+            }
+          });
+          char2.update(); 
+          ctx2.show();
+        }
+      })
 }
 
-// ################################################## Us food data request ##################################################
 
-// Issue du site : https://www.ers.usda.gov/data-products/food-environment-atlas/go-to-the-atlas.aspx
-// Partie requete : https://gis.ers.usda.gov/arcgis/rest/services/fa_restaurants/MapServer/6/query
-async function takeFastFoodVarForOneState(state){
-    let url = "https://gis.ers.usda.gov/arcgis/rest/services/fa_restaurants/MapServer/2/query?where=State+%3D+%27" + state + "%27&text=&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=4269&spatialRel=esriSpatialRelIntersects&distance=&units=esriSRUnit_Meter&relationParam=&outFields=*&returnGeometry=true&returnTrueCurves=false&maxAllowableOffset=&geometryPrecision=&outSR=4326&havingClause=&returnIdsOnly=false&returnCountOnly=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdbVersion=&historicMoment=&returnDistinctValues=false&resultOffset=&resultRecordCount=&returnExtentOnly=false&datumTransformation=&parameterValues=&rangeValues=&quantizationParameters=&featureEncoding=esriDefault&f=pjson"
-    let field = "FFRPTH16";
-    return await fetch(url)
-    .then(
-        data => {
-            return data.json().then(res => {
-                //console.log("var "+field + " "+ res["fieldAliases"]["FFRPTH16"])
-                var result = 0;
-                let n = 0;
-                for(i in res["features"]){
-                    result = result + res["features"][i]["attributes"][field];
-                    n++;
-                }
-                result /= n;
-                return result;
-            })
+// ######################################## Consctruction des graphiques char1 et char2 ################################################
+
+function buildChar2(){
+  return new Chart(ctx2, {
+    type: 'pie',
+    data: {
+        labels: ['White Population', 'Hispanic Population', 'Asian Population', 'Black Population'],
+        datasets: [{
+            label: 'Distribution of population',
+            data: null,
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            xAxes: [{
+              gridLines: {
+                display: false
+              },
+              ticks: {
+                     display: false
+              }
+            }],
+            yAxes: [{
+              gridLines: {
+                display: false
+              },
+              ticks: {
+                     display: false
+              }
+            }]
         }
-        )
     }
-if(isTest==true){
-    takePresidentialVoteVarForOneState("Texas").then(data=>{ console.log(data["records"][0]["fields"]["winner"]); });    
-    
-    var state = "WI"
-    takeFastFoodVarForOneState(state).then(data => {console.log(data)})
+  });
+}
+
+
+function buildChar1(){
+  return new Chart(ctx1, {
+    type: 'horizontalBar',
+    data: {
+        labels: ['Republicans', 'Democrats','Others'],
+        datasets: [{
+            label: 'Repartition of votes',
+            data: null,
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            xAxes: [{
+              gridLines: {
+                display: false
+              },
+              ticks: {
+                      display: false
+              }
+            }],
+            yAxes: [{
+              gridLines: {
+                display: false
+              }
+            }]
+        }
+    }
+  });
 }
