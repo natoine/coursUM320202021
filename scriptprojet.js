@@ -176,16 +176,14 @@ function buildChar1(){
         scales: {
             xAxes: [{
               gridLines: {
-                display: false
+                display: true
               },
-              ticks: {
-                      display: false
-              }
+              type: 'linear',
             }],
             yAxes: [{
               gridLines: {
                 display: false
-              }
+              },
             }]
         }
     }

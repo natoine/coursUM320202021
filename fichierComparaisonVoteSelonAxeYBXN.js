@@ -1,51 +1,47 @@
-var place = document.getElementById('bubble').getContext('2d');
+var place = $('#bubble');
 var dataset;
-var graph;
+var char;
 var arrEthni = ["white people", "hispanic people", "asian people", "black people"];
+var chooseEthni = [0, 0]; // [x, y]
 
-function maPromise(){
+
+function activationEventForDoGraphic(){
+    place.hide();
+    char = bubbleChart();
+    maPromise(chooseEthni);
+
+    $("#doGraph").click(function(){
+        chooseEthni = [$("#ethni1").val(), $("#ethni2").val()];
+        maPromise(chooseEthni);
+    })
+}
+
+
+function maPromise(chooseEthni){
     Promise.all([fetch("https://public.opendatasoft.com/api/records/1.0/search/?dataset=us-2016-primary-results&rows=10000"),
     fetch("https://public.opendatasoft.com/api/records/1.0/search/?dataset=residential-segregation-data-for-us-metro-areas&rows=308"),
     fetch("https://gist.githubusercontent.com/mshafrir/2646763/raw/8b0dbb93521f5d6889502305335104218454c2bf/states_hash.json")])
-    .then(data => {return Promise.all([data[0].json(), data[1].json(), data[2].json()]) })
-    .then(data => { 
+    .then(data => {return Promise.all([data[0].json(), data[1].json(), data[2].json()])})
+    .then(data => {
+        // ### Remove data chart
+        let taille = char.data.datasets.length;
+        for(let i=0; i<taille; i++){ 
+            char.data.datasets.pop();
+        }
+        char.update();
+        
         let voteData = cleanDataVote(data[0]);
         let seggregData = cleanDataSeggreg(data[1]);
         let linkState = data[2];
-
-        let chooseEthni = [1, 2]; // [x, y]
-
-        dataset = formDataSet(seggregData, voteData, linkState, chooseEthni);
-
-        graph = new Chart(place, {
-            type: 'bubble',
-            data: {
-                datasets: dataset
-            },
-            options: {
-                title: {
-                    display: true, 
-                    text: "Compare pourcentage vote (Demo, Rep, other) according pourcentage of "+ arrEthni[chooseEthni[0]] + " and "+ arrEthni[chooseEthni[1]]
-                },
-                legend: {
-                    display: false,
-                },
-                scales: {
-                    yAxes: [{
-                        scaleLabel: {
-                          display: true,
-                          labelString: 'Pourcentage of '+ arrEthni[chooseEthni[1]]
-                        }
-                      }],
-                      xAxes: [{
-                        scaleLabel: {
-                          display: true,
-                          labelString: 'Pourcentage of '+ arrEthni[chooseEthni[0]]
-                        }
-                      }],
-                }
-            }
-        });
+        dataFetch = formDataSet(seggregData, voteData, linkState, chooseEthni);
+        
+        // ### Add data chart
+        char.data.datasets = dataFetch;
+        char.options.title.text = "Compare pourcentage vote (Demo, Rep, other) according pourcentage of "+ arrEthni[chooseEthni[0]] + " and "+ arrEthni[chooseEthni[1]]
+        char.options.scales.xAxes[0].scaleLabel.labelString = 'Pourcentage of '+ arrEthni[chooseEthni[0]]
+        char.options.scales.yAxes[0].scaleLabel.labelString = 'Pourcentage of '+ arrEthni[chooseEthni[1]]
+        char.update();
+        place.show();        
     })
     
 }
@@ -73,7 +69,7 @@ function cleanDataVote(data) {
     let reducer = (accumulator, currentValue) => accumulator + currentValue;
     for(var i in dictStat){
         let totalPopState = dictStat[i].reduce(reducer);
-        dictStat[i] = dictStat[i].map(x => (x/totalPopState).toFixed(2));
+        dictStat[i] = dictStat[i].map(x => (x/totalPopState*10).toFixed(2));
     }
     return dictStat;
 }
@@ -83,7 +79,6 @@ function  cleanDataSeggreg(data){
     let regex = RegExp('-');
     for (var i in data['records']) {
         if (!dictStat.hasOwnProperty(data['records'][i]["fields"]["state_code"])) {
-            // Je verifie la key n'est pas de cette forme là : AX-KY...
             if(regex.test(data['records'][i]["fields"]["state_code"])){
                 let arr = data['records'][i]["fields"]["state_code"].split("-");
                 for(i in arr){
@@ -109,66 +104,73 @@ function  cleanDataSeggreg(data){
 }
 
 function formDataSet(seggregData, voteData, linkState, arrCompareEthni){
-    whoX = arrCompareEthni[0]
-    whoY = arrCompareEthni[1]
-    dataset = []
-    coeffR = 10
+    let whoX = arrCompareEthni[0]
+    let whoY = arrCompareEthni[1]
+    let dataset = []
+    let color = [
+        {backgroundColor:"#6C9AFF", hoverBackgroundColor: "#0050FF" },
+        {backgroundColor:"#FF6060", hoverBackgroundColor: "#FB0303"},
+        {backgroundColor:"#FAFD55", hoverBackgroundColor: "#FAFF00"}
+    ]
+    let party = ["Republican", "Democrate", "Other"]
     for(state in seggregData){
+        
         if (voteData.hasOwnProperty(state) && linkState.hasOwnProperty(state)) {
-            let republicain = {
-                label: ("Republican vote for "+linkState[state]),
+            let idxMax = 0;
+            for(let i in voteData[state]){
+                if(voteData[state][i]>voteData[state][idxMax]){
+                    idxMax=i
+                }
+            }
+            let winner = {
+                label: (party[idxMax]+" vote for "+linkState[state]),
                 data: [
                     {
                         x: seggregData[state][whoX],
                         y: seggregData[state][whoY],
-                        r: voteData[state][1]*coeffR
+                        r: voteData[state][idxMax]
                     }
                 ],
-                backgroundColor:"#FF6060",
-                hoverBackgroundColor: "#FB0303"
+                backgroundColor: color[idxMax]["backgroundColor"],
+                hoverBackgroundColor: color[idxMax]["hoverBackgroundColor"]
             }
-            let democrate = {
-                label: ("Democrate vote for "+linkState[state]),
-                data: [
-                    {
-                        x: seggregData[state][whoX],
-                        y: seggregData[state][whoY],
-                        r: voteData[state][0]*coeffR
-                    }
-                ],
-                backgroundColor:"#6C9AFF",
-                hoverBackgroundColor: "#0050FF"
-            }
-            let other = {
-                label: ("Other vote for "+linkState[state]),
-                data: [
-                    {
-                        x: seggregData[state][whoX],
-                        y: seggregData[state][whoY],
-                        r: voteData[state][2]*coeffR
-                    }
-                ],
-                backgroundColor:"#FAFD55",
-                hoverBackgroundColor: "#FAFF00"
-            }
-            dataset.push(democrate);
-            dataset.push(republicain);
-            dataset.push(other);
+            dataset.push(winner);
         }
     }
     return dataset;
 }
 
+// ##################### Fonction de mise en place le graphique
 
-// ##################### Fonction de mise en place des graphiques
-
-function bubbleChart(place, data){
-    var options = {
-        aspectRatio: 1,
-        legend: false,
-        tooltips: false,
-
-        
-    };
-    return 
+function bubbleChart(){
+    return new Chart(place, {
+        type: 'bubble',
+        data: {
+            datasets: []
+        },
+        options: {
+            title: {
+                display: true, 
+                text: null
+            },
+            legend: {
+                display: false,
+            },
+            scales: {
+                yAxes: [{
+                    scaleLabel: {
+                      display: true,
+                      labelString: null,
+                    },
+                }],
+                xAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: null,
+                    }
+                }],
+                
+            }
+        }
+    });
 }
