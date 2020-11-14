@@ -1,3 +1,4 @@
+
 // L'emplacement HTML des graphiques
 var ctx1 = $('#votes');
 var ctx2 = $('#myChart');
@@ -12,6 +13,7 @@ function etats(){
       return response.json()
     })
     .then((data) => {
+
       ctx1.hide();
       ctx2.hide();
 
