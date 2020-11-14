@@ -70,7 +70,7 @@ function affiche_phrase(data){
         ", nous dénombrons "+ result_filter[0]["deces"]+" décès, "+result_filter[0]["hospitalises"]+" patients hopsitalisés dont " +
         result_filter[0]["reanimation"]+" en réanimation." +
         "<br> Dans les hopitaux du département, il y a "+result_filter[0]["nouvellesHospitalisations"]+
-        " nouvelle(s) hospitalisation(s). Parmis elles, "+result_filter[0]["nouvellesReanimations"]+" nouvelles réanimation(s)."
+        " nouvelle(s) hospitalisation(s) dont "+result_filter[0]["nouvellesReanimations"]+" nouvelles réanimation(s)."
         "<br>"+result_filter[0]["gueris"]+" personnes ont été guéries."
 
         div5.innerHTML="Un doute ? Pas de panique ! Voici les lieux où vous pouvez vous faire dépister dans votre département :"
