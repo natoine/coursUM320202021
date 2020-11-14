@@ -30,7 +30,7 @@ Les fonctions implémentées:
 
 - affiche_phrase(data): Cette fonction prend en paramètre le fichier JSON relatif à l'épidémie. Elle permet de récupérer le code postal et de filtrer les données en fonction du département choisi. Elle affiche, dans le HTML, une phrase contenant les informations sur l'épidémie et un GIF.
 
-- transf_donnee_web_a_table(element): Cette fonction prend en argument chaque ligne du tableau CSV originale. Elle récupère le code postal et créer des clefs et des valeurs pour chaque champ.
+- transf_donnee_web_a_table(element): Cette fonction prend en argument chaque ligne du tableau CSV originale. Elle récupère le code postal et crée des clefs et des valeurs pour chaque champ.
 
 - affiche_tableau(result_mod): Cette fonction prend en paramètre les données du fichier CSV modifiées grâce à la librairie `papaperse`. Elle va filtrer les résultats et les ranger dans un tableau. Elle utilise la librarie boostrap pour améliorer le visuel. 
 
