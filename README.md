@@ -1,3 +1,33 @@
+# Projet 
+
+Ce projet est une interface dynamique qui permet de comparer les votes aux USA avec la ségregation sociale par etat en 2017.
+
+## URL du projet 
+https://melodyrous.github.io/coursUM320202021/
+
+### Liens vers les données
+#### Elections présidentielles USA
+https://public.opendatasoft.com/explore/dataset/usa-2016-presidential-election-by-county/table/?flg=fr&disjunctive.state%22
+
+ #### Segregation sociale 
+  https://public.opendatasoft.com/explore/dataset/residential-segregation-data-for-us-metro-areas/table/?location=3,46.23229,-124.59801&basemap=jawg.streets
+
+#### Code Etats 
+  "https://gist.githubusercontent.com/mshafrir/2646763/raw/8b0dbb93521f5d6889502305335104218454c2bf/states_hash.json"
+
+### Critère d'intersection des données
+Le critère d'intersection des données est un fichier format json qui relie les codes des Etats d'Amériques à leurs noms.
+
+### Problèmes rencontrés
+Impossibilité de récupérer certaines données lors du fetch :
+-  Lorsque le site n'est pas sécurisé
+-  Lorsque le domaine d'origine de la requête est spécifié dans les CORS
+-  Lorsque les données proviennent d'une API dont l'accès est protégé par des clés  
+  
+
+
+Alexandre Chaillou, Lucas Fioletti, Romain Meuter, Mélody Rous
+
 # coursUM320202021
 le support de cours de 2020 - 2021
  
