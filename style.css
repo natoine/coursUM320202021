@@ -1,0 +1,33 @@
+h1{
+    margin: auto;
+    text-align: center;
+    color: teal;
+    font-size: xx-large;
+}
+
+body{
+    margin: auto;
+    margin-left: 50px;
+    background-color: mintcream;
+    border: 2px;
+    margin-left: 100px;
+    margin-right: 100px;
+}
+
+html{
+    background-color: white;
+}
+
+.carte{
+    text-align: center;
+}
+
+p{
+    margin-right: 2px;
+    margin-left: 10px;
+}
+
+h2{
+    color: steelblue;
+    font-size: larger;
+}

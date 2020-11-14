@@ -3,6 +3,7 @@
     <head>
         <meta charset="utf-8">
         <script src="jquery.js"></script>
+        <link rel="stylesheet" href="style.css">
 
     </head>
 
@@ -13,37 +14,119 @@
         <div id=maincontent>
 
         </div>
-        <script >
-            var anotherOne = fetch('https://koumoul.com/s/data-fair/api/v1/datasets/dpe-france/api-docs.json').then(
-            function(response){
-                response.json().then(function(data){ anotherOne = data})
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="CSVToArray.js"></script>
+<script src="https://d3js.org/d3.v5.min.js"></script>
+<script>
+    let code_insee;
+    let dada;
+    let postcode  = window.prompt("Entrez un code postal : ")
+    let adresse = 'https://api-adresse.data.gouv.fr/search/?q=a&postcode='.concat(postcode)
+    console.log(adresse)
+    fetch(adresse, {method: 'GET',
+        headers: {},
+        cache: 'default'})
+        .then(function(response){
+                response.json()
+                    .then(function(data){
+                        document.getElementById("maincontent").innerHTML=data["features"][0]["properties"]["citycode"];
+                        code_insee = data["features"][0]["properties"]["citycode"];
+                        console.log(code_insee);
+                    })
+            }
+        )
+    // fetch('https://transport.data.gouv.fr/api/datasets').then(
+    // function(response){
+    //     response.json().then(function(data){
+    //         dada = data;
+    //     })
+    // }
+    // )
+
+    fetch('https://www.data.gouv.fr/fr/datasets/r/a87c7261-a9df-46b2-89fd-74449a04e4bf', { method: 'GET',
+        headers: {},
+        mode: 'cors',
+        cache: 'default'}).then(
+        function(response){
+            response.json().then(function(data){
+                dada = data;
+                for (let i = 0; i < data["features"].length; i++) {
+                    // console.log(data["features"][i]["properties"]["citycode"]);
+                    // console.log("coucou");
+                    if (data["features"][i]["properties"]["insee"] === code_insee) {
+                        document.getElementById("maincontent").innerHTML+=data["features"][i]["properties"]["libel"];
+                    }
                 }
-            )
-            document.getElementById("maincontent").innerHTML=anotherOne;
 
-            let aom;
-            fetch('https://transport.data.gouv.fr/api/aoms/geojson').then(
-                function(response){
-                    response.json().then(function(data){ aom = data})
-                }
-            )
+            })
+        }
+    )
+    fetch('https://www.data.gouv.fr/fr/datasets/r/ad2e7f7d-ef02-41ab-bb24-b883b2d66c75', { method: 'GET',
+        headers: {},
+        mode: 'cors',
+        cache: 'default'}).then(
+        function(response){
+            response.text().then(function(data){
+                impotLocaux = CSVToArray(data, ",");
+                console.log(impotLocaux[0]);
+                let impotObj =[];
+                let indexInsee = impotLocaux[0].indexOf("insee");
+                let indexTaxeHab = impotLocaux[0].indexOf("taxe_habitation_taux");
+                let indexYear = impotLocaux[0].indexOf("year");
+                console.log(indexTaxeHab);
+                console.log(indexInsee);
+                for (let i = 0; i < impotLocaux.length; i++) {
+                    if (impotLocaux[i][indexInsee] === code_insee) {
+                        value1 = impotLocaux[i][indexYear]
+                        value2 = impotLocaux[i][indexTaxeHab]
+                        impotObj.push([{ "year": value1} , {"taxe" : value2}])
+                        document.getElementById("maincontent").innerHTML+=impotLocaux[i][indexTaxeHab];
+                    }
+               } })
 
-            let datasets;
-            fetch('https://transport.data.gouv.fr/api/datasets').then(
-                function(response){
-                    response.json().then(function(data){ datasets = data})
-                }
-            )
+    } )
+    fetch('https://www.data.gouv.fr/fr/datasets/r/4c919d05-7554-45fb-b8ac-0daa37560b2c', { method: 'GET',
+        headers: {},
+        mode: 'cors',
+        cache: 'default'}).then(
+        function(response) {
+            response.text().then(function (data) {
+                prenom = CSVToArray(data, ",");
+                console.log(prenom[0]);
+                let indexInseename = prenom[0].indexOf("commun_nom");
+                let indexPrenom = prenom[0].indexOf(`enfant_prenom`);
+                let indexAnnee = prenom[0].indexOf(`annee`);
+                let popular = 0
+                let ipop
+                for (let i = 0; i < prenom.length; i++) {
+                    if (prenom[i][indexInseename] === code_insee && prenom[i][indexAnnee] == 2017 ) {
+                        if (prenom[i][4] > popular) {
+                            popular = prenom[i][4];
+                            ipop =  i
+                        }
+                    }}
+                console.log(ipop);
 
-            let bikeSharing;
-            fetch('https://transport.data.gouv.fr/api/stats/bike-sharing').then(
-                function(response){
-                    response.json().then(function(data){ bikeSharing = data})
-                }
-            )
+            })
+        }
+    )
 
-         </script>
+</script>
 
+         <h1> Des données sur le département de l'Hérault</h1>
+         <p> Au cas où vous voulez vous installez dans une commune de l'Hérault, voici quelques informations utiles à savoir</p>
+
+            <div class="carte"> 
+                <h2>Collèges Publics et réseau routier départemental de l'Hérault</h2>
+                <iframe frameborder="0" width="600" height="450" src="https://www.herault-data.fr/map/embed/colleges_publics_et_reseau_routier_de_lherault/?&static=false&scrollWheelZoom=false"></iframe>
+                <p class="source"> Source : Hérault-Data</p>
+            </div>
+
+            <div class="carte"> 
+                <h2>Etablissements sanitaire et le réseau routier départemental</h2>
+                <iframe frameborder="0" width="600" height="450" src="https://www.herault-data.fr/map/embed/etablissements_sanitaire_et_le_reseau_routier_departemental/?&static=false&scrollWheelZoom=false"></iframe>
+                <p class="source"> Source : Hérault-Data</p>
+            </div>
     </body>
 </html>
 
