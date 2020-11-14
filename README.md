@@ -7,7 +7,7 @@ Ce site permet de suivre quotidiennement l'évolution de la COVID-19. En fonctio
 Lien vers le site : https://aurorepdrs.github.io/coursUM320202021/
 
 
-Afin de réaliser cet API, nous avons utilisé 2 sources de données : 
+Afin de réaliser ce projet, nous avons utilisé 2 sources de données : 
 
 - 1ère source : https://coronavirusapi-france.now.sh/AllLiveData : informations mises à jour quotidiennement sur l'épidémie de la COVID-19 en fonction des départements et des régions (fichier JSON)
 - 2ème source : https://www.data.gouv.fr/fr/datasets/r/7c0f7980-1804-4382-a2a8-1b4af2e10d32 : sites de prélèvements des tests COVID-19 en France (fichier CSV)
