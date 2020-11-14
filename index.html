@@ -3,24 +3,26 @@
     <head>
         <meta charset="utf-8">
         <link rel="stylesheet" href="style.css"/>
-        <script src="https://d3js.org/d3.v6.min.js"></script>
+        <script src="https://d3js.org/d3.v5.min.js"></script>
         <script src="fonction.js"></script>
         <script src="automatisation.js"></script>
+        <script src="sphere.js"></script>
+        <script src="request.js"></script>
     </head>
 
     <body>
-        <div id=maincontent>
+        <div id="maincontent">
 
         </div>
     </body>
 </html>
 
 <script type="text/javascript">
-    var sphere = new Sphere();
-    
     var url;
     if (window.fetch) 
     {
+        // url = "https://stats.oecd.org/sdmx-json/data/DP_LIVE/#key/OECD?contentType=csv&detail=code&separator=comma&csv-lang=fr&startPeriod=2019&endPeriod=2019";
+        // keys = [".GGDEBT.TOT.PC_DGP.A", ".AVWAGE.TOT.USD.A", ".GDP.TOT.MLN_USD.A"]
 
         url = "https://stats.oecd.org/sdmx-json/data/DP_LIVE/.GGDEBT.TOT.PC_GDP.A/OECD?contentType=csv&detail=code&separator=comma&csv-lang=fr&startPeriod=2019&endPeriod=2019";
         fetch(url, { method: 'GET', headers: {}, mode: 'cors', cache: 'default' })
@@ -56,13 +58,17 @@
 
         //Liste : pays, dette, salaire, pib
         var pays = concat(dette,salaire,pib);
+        console.log("PAYS : ", pays);
 
-        sphere.draw(pays);
-    } 
-
+        // var filters = ["debt", "wage", "pib"];
+        // var sel = new Selector(filters);
+        // sphere.draw(pays, filter="pib", range=60);
+    }
     else 
     {
-        console.log("Erreur chargement data");
+        var msg = "Erreur chargement data";
+        d3.select("#maincontent").text(msg);
+        console.log(msg);
     }
 
 </script>
