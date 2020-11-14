@@ -26,11 +26,11 @@ Les fonctions implémentées:
 
 - menu_deroulant(): Implémentation d'un menu déroulant, où les options sont les départements (récupérés de la première source de données) et dont la value est le numéro du département. 
 
-- affiche_donnees(): Fonction générale appellée lorsque l'utilisateur clique sur le bouton "Afficher les informations relatives au COVID-19". Elle contient les deux sources de données et appelle les autres fonctions. 
+- affichage(): Fonction générale appellée lorsque l'utilisateur clique sur le bouton "Afficher les informations relatives au COVID-19". Elle contient les deux sources de données et appelle les autres fonctions. 
 
-- affiche_phrase(data): Cette fonction prend en paramètre les données JSON relatives à l'épidémie. Elle permet de réccupérer le code postal et de filtrer les données en fonction du département choisi. Elle affiche, dans le HTML, une phrase contenant les informations sur l'épidémie et un GIF.
+- affiche_phrase(data): Cette fonction prend en paramètre le fichier JSON relatif à l'épidémie. Elle permet de réccupérer le code postal et de filtrer les données en fonction du département choisi. Elle affiche, dans le HTML, une phrase contenant les informations sur l'épidémie et un GIF.
 
 - transf_donnee_web_a_table(element): Cette fonction prend en argument chaque ligne du tableau csv originale. Elle réccupère le code postal et créer des clefs et des valeurs pour chaque champ.
 
-- affiche_tableau(result_mod): Cette fonction prend en paramètre les données du fichier csv modifiées grâce à la librairie papaperse. Elle va filtrer les résultats du deuxième jeux et les ranger dans un tableau. Elle utilise la librarie boostrap pour améliorer le visuel. 
+- affiche_tableau(result_mod): Cette fonction prend en paramètre les données du fichier csv modifiées grâce à la librairie papaperse. Elle va filtrer les résultats et les ranger dans un tableau. Elle utilise la librarie boostrap pour améliorer le visuel. 
 

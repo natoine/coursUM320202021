@@ -1,23 +1,24 @@
 menu_deroulant();
 
-// Fonction pour afficher les informations + la table des lieux de dépistage
-// Créer une alerte si aucun département est sélectionné
-function affiche_donnees(){
+// Fonction générale pour afficher les informations du covid-19 + la table des lieux de dépistage
+function affichage(){
+    // Créer une alerte si aucun département n'est sélectionné
     if (document.getElementById("dep-select").value == "--Veuillez choisir un département--"){
         alert("Veuillez choisir un département");
         return;
     }
+    //Appel du jeu de données contenant les informations sur le Covid-19.
     fetch('https://coronavirusapi-france.now.sh/AllLiveData', { method: 'GET',
         headers: {},
         mode: 'cors',
         cache: 'default'}).then(
             function(response){
                 response.json().then(function(data){
-
+                    //Affichage des données du covid-19 dans une phrase + éléments HTML
                     affiche_phrase(data);
             })
     })
-    // Affiche la table avec les lieux de dépistage du département
+    //Appel du jeu de données avec les lieux de dépistage du département
     fetch('https://www.data.gouv.fr/fr/datasets/r/7c0f7980-1804-4382-a2a8-1b4af2e10d32', { 
         method: 'GET',
         headers: {},
@@ -31,7 +32,7 @@ function affiche_donnees(){
                 //transf_donnee_web_a_table: prend un élément du tableau original 
                     //et retourne un élément dans un nouveau tableau
                 result_mod = result.data.map(transf_donnee_web_a_table);
-                //appelle une autre fonction
+                //appelle une autre fonction pour filtrer les données et afficher le tableau
                 affiche_tableau(result_mod);
             }
         )
@@ -64,14 +65,17 @@ function affiche_phrase(data){
 
         div5=document.getElementById('div5');
 
-        div3.innerHTML = "<br> En "+result_filter[0]["nom"]+" ("+cp1+")"+", le "+
-        result_filter[0]["date"]+", il y a "+result_filter[0]["hospitalises"]+
-        " patient(s) hospitalisé(s), "+result_filter[0]["reanimation"]+" en réanimation. On dénombre "+result_filter[0]["nouvellesHospitalisations"]
-        +" nouvelle(s) hospitalisation(s) et "+result_filter[0]["nouvellesReanimations"]+" nouvelle(s) réanimation(s). Le nombre de décès a augmenté de "+
-        result_filter[0]["deces"]+". "+"<br>"+result_filter[0]["gueris"]+" personnes ont été guéries."
+        div3.innerHTML = "<br> La France affronte une deuxième vague d'épidémie de coronavirus extrêmement forte. <br> En "+
+        result_filter[0]["nom"]+" ("+cp1+")"+", le "+ result_filter[0]["date"]+
+        ", nous dénombrons "+ result_filter[0]["deces"]+" décès, "+result_filter[0]["hospitalises"]+" patients hopsitalisés dont " +
+        result_filter[0]["reanimation"]+" en réanimation." +
+        "<br> Dans les hopitaux de la région, il y a "+result_filter[0]["nouvellesReanimations"]+
+        " nouvelle(s) hospitalisation(s)."+
+        "<br>"+result_filter[0]["gueris"]+" personnes ont été guéries."
 
         div5.innerHTML="Un doute ? Pas de panique ! Voici les lieux où vous pouvez vous faire dépister dans votre département :"
 }
+
 // Fonction qui permet de créer un menu déroulant avec les départements
 function menu_deroulant(){
     fetch('https://coronavirusapi-france.now.sh/AllLiveData', { method: 'GET',
@@ -99,7 +103,7 @@ function menu_deroulant(){
     })    
 }
 
-//Fonction qui affiche les éléments dans le html des lieux de test covid
+//Fonction qui filtre les données par dép et affiche les lieux de test covid dans le html 
 function affiche_tableau(result_mod) {
     let tab = document.createElement("table");
     tab.className = 'table table-striped table-dark';
@@ -122,7 +126,7 @@ function affiche_tableau(result_mod) {
     }
     console.log(result_mod.length);
 
-    //Permet de filtrer en fonction du départemetn selectionné
+    //Permet de filtrer en fonction du département selectionné
     var result_filter = [];
     for(let y =0; y<result_mod.length-1; y++){
         if(result_mod[y].codePostal===document.getElementById("dep-select").value){
