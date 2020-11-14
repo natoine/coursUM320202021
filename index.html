@@ -16,7 +16,7 @@
 </html>
 
 <script type="text/javascript">
-   
+    var sphere = new Sphere();
     
     var url;
     if (window.fetch) 
@@ -56,8 +56,8 @@
 
         //Liste : pays, dette, salaire, pib
         var pays = concat(dette,salaire,pib);
-        console.log(pays);
 
+        sphere.draw(pays);
     } 
 
     else 

@@ -66,45 +66,43 @@ class Sphere {
         this.svg.call(drag);
     }
 
-    draw(data) {
+    draw(data, filter="pib") {
         const that = this;
-        d3.csv("data_samples/world-temperature.csv").then(function(data) {
-            var quantile = d3.scaleQuantile().domain([
-                    d3.min(data, e => +e.temperature),
-                    d3.max(data, e => +e.temperature)
-                ]).range(d3.range(60));
-                
-            var legend = that.svg.append('g')
-                .attr('transform', 'translate(35, 10)')
-                .attr('id', 'legend');
-                
-            legend.selectAll('.colorbar') // LIGNE 11
-                .data(d3.range(60))
-                .enter().append('rect')
-                .attr('y', d => d * 5 + 'px')
-                .attr('height', '5px')
-                .attr('width', '20px')
-                .attr('x', '0px')
-                .attr("class", function (d) {
-                    console.log(d);
-                    return "temperature-" + d;
-                });
+        var quantile = d3.scaleQuantile().domain([
+                d3.min(data, e => +e[filter]),
+                d3.max(data, e => +e[filter])
+            ]).range(d3.range(60));
+
+        var legend = that.svg.append('g')
+            .attr('transform', 'translate(35, 10)')
+            .attr('id', 'legend');
             
-            var legendScale = d3.scaleLinear()
-                .domain([d3.min(data, e => +e.temperature), d3.max(data, e => +e.temperature)])
-                .range([0, 60 * 5]);
-                
-            that.svg.append("g")
-                .attr('transform', 'translate(25, 10)')
-                .call(d3.axisLeft(legendScale).ticks(10));
-            
-            data.forEach(function(e,i) {
-                var q = quantile(+e.temperature);
-                console.log("TEMP : " + +e.temperature, q, ""+q);
-                d3.select("#" + e.country) // LIGNE 29
-                    .attr("class", e => "country temperature-" + q);
+        legend.selectAll('.colorbar') // LIGNE 11
+            .data(d3.range(60))
+            .enter().append('rect')
+            .attr('y', d => d * 5 + 'px')
+            .attr('height', '5px')
+            .attr('width', '20px')
+            .attr('x', '0px')
+            .attr("style" , function (d) { // d3 colorScale
+                // return "fill:" + color(d[filter]);
+                return "";
             });
-        });
+        
+        var legendScale = d3.scaleLinear()
+            .domain([d3.min(data, e => +e[filter]), d3.max(data, e => +e[filter])])
+            .range([0, 60 * 5]);
+            
+        that.svg.append("g")
+            .attr('transform', 'translate(25, 10)')
+            .call(d3.axisLeft(legendScale).ticks(10));
+        
+        // data.forEach(function(e,i) {
+        //     var q = quantile(+e[filter]);
+        //     console.log("TEMP : " + +e[filter], q, ""+q);
+        //     d3.select("#" + e.pays) // LIGNE 29
+        //         .attr("class", e => "country temperature-" + q);
+        // });
     }
 }
 
