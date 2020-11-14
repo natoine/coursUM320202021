@@ -67,10 +67,10 @@ function affiche_phrase(data){
 
         div3.innerHTML = "<br> La France affronte une deuxième vague d'épidémie de coronavirus extrêmement forte. <br> En "+
         result_filter[0]["nom"]+" ("+cp1+")"+", le "+ result_filter[0]["date"]+
-        ", nous dénombrons "+ result_filter[0]["deces"]+" décès, "+result_filter[0]["hospitalises"]+" patients hopsitalisés dont " +
+        ", nous dénombrons "+ result_filter[0]["deces"]+" décès, "+result_filter[0]["hospitalises"]+" patients hospitalisés dont " +
         result_filter[0]["reanimation"]+" en réanimation." +
-        "<br> Dans les hopitaux du département, il y a "+result_filter[0]["nouvellesHospitalisations"]+
-        " nouvelle(s) hospitalisation(s) dont "+result_filter[0]["nouvellesReanimations"]+" nouvelles réanimation(s)."
+        "<br> Dans les hôpitaux du département, il y a "+result_filter[0]["nouvellesHospitalisations"]+
+        " nouvelle(s) hospitalisation(s) dont "+result_filter[0]["nouvellesReanimations"]+" nouvelle(s) réanimation(s)."
         "<br>"+result_filter[0]["gueris"]+" personnes ont été guéries."
 
         div5.innerHTML="Un doute ? Pas de panique ! Voici les lieux où vous pouvez vous faire dépister dans votre département :"
@@ -114,8 +114,8 @@ function affiche_tableau(result_mod) {
     document.getElementById("maincontent").appendChild(tab);
     let newLigne = document.createElement("tr");
     tab.appendChild(newLigne);
-    let headers = ["Hopital", "Adresse", "Code Postal", "Prélèvement", "Public",
-                    "Horaire", "Rendez_vous", "Téléphone", "Site Web"];
+    let headers = ["Hôpital", "Adresse", "Code Postal", "Prélèvement", "Public",
+                    "Horaires", "Rendez_vous", "Téléphone", "Site Web"];
 
     for (let i = 0; i < headers.length; i++) {
         let newColonne = document.createElement("th");
