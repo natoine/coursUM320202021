@@ -4,6 +4,8 @@
         <meta charset="utf-8">
         <link rel="stylesheet" href="style.css"/>
         <script src="https://d3js.org/d3.v6.min.js"></script>
+        <script src="fonctions.js"></script>
+        <script src="automatisation.js"></script>
     </head>
 
     <body>
@@ -13,5 +15,54 @@
     </body>
 </html>
 
-<script src="automatisation.js"> 
+<script type="text/javascript">
+   
+    
+    var url;
+    if (window.fetch) 
+    {
+
+        url = "https://stats.oecd.org/sdmx-json/data/DP_LIVE/.GGDEBT.TOT.PC_GDP.A/OECD?contentType=csv&detail=code&separator=comma&csv-lang=fr&startPeriod=2019&endPeriod=2019";
+        fetch(url, { method: 'GET', headers: {}, mode: 'cors', cache: 'default' })
+            .then(response => response.text())
+            .then(data => localStorage.setItem('dette',data));
+
+        var res = localStorage.getItem('dette');
+        dette = formater(res);
+
+        url = "https://stats.oecd.org/sdmx-json/data/DP_LIVE/.AVWAGE.TOT.USD.A/OECD?contentType=csv&detail=code&separator=comma&csv-lang=fr&startPeriod=2019&endPeriod=2019";
+        fetch(url, { method: 'GET', headers: {}, mode: 'cors', cache: 'default' })
+            .then(response => response.text())
+            .then(data => localStorage.setItem('salaire',data));
+
+        var res = localStorage.getItem('salaire');
+        salaire = formater(res);
+
+        url = "https://stats.oecd.org/sdmx-json/data/DP_LIVE/.GDP.TOT.MLN_USD.A/OECD?contentType=csv&detail=code&separator=comma&csv-lang=fr&startPeriod=2019&endPeriod=2019";
+        fetch(url, { method: 'GET', headers: {}, mode: 'cors', cache: 'default' })
+            .then(response => response.text())
+            .then(data => localStorage.setItem('pib',data));
+
+        var res = localStorage.getItem('pib');
+        pib = formater(res);
+
+
+        // en % du PIB / attributs : Location, Indicator, Subject, Measure, Frequency, Time, Value
+        //console.log(dette);
+        // salaire moyen par annuel en dollar: Location, Indicator, Subject, Measure, Frequency, Time, Value
+        //console.log(salaire);
+        // pib en million de dollard : Location, Indicator, Subject, Measure, Frequency, Time, Value
+        //console.log(pib);
+
+        //Liste : pays, dette, salaire, pib
+        var pays = concat(dette,salaire,pib);
+        console.log(pays);
+
+    } 
+
+    else 
+    {
+        console.log("Erreur chargement data");
+    }
+
 </script>
