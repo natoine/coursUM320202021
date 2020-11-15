@@ -1,33 +1,13 @@
-# coursUM320202021
-le support de cours de 2020 - 2021
+Présentation du projet "City Compare"
+Projet de Emmanuelle Theron, Mélodie Cassan, Moulikatou Alaka, Jonathan Moreno
 
-#les questions de culture général - introduction
+L'objectif de ce projet est de proposer un outil simple pour comparer certains paramètres liés à la vie quotidienne et au marché immobilier pour l'ensemble des villes françaises (métropolitaines).
 
-* Date et nom de l'inventeur du web :
+Les paramètres sont :
 
-Timothy John Berners-Lee en 1990
+    Le nom des gares présentes dans la communes
+    Le taux de la taxe d'habitation en pourcentage
+    Le prix de vente des logements au mètre carré en euros
+    Le nombres de centre de dépistage Covid
 
-* Différence entre le web et Internet :
-
-Le Web est un ensemble d’ informations, tandis qu’Internet est le réseau informatique qui permet de les transporter
-
-* Les 3 technologies fondatrices du Web et à quoi elles servent ?
-
-HTTP (protocole de communication réseau)
-HTML (langage par balise pour coder des pages web)
-
-* Qu’est-ce que l’interopérabilité ?
-
-fait que des systèmes informatiques ou téléphoniques puissent s'adapter afin de collaborer avec d ' autres systèmes indépendants, afin de créer un réseau et de faciliter le transfert de données
-
-* Qu'est ce que le web de données ?
-
-Initiative du W3C (Consortium World Wide Web) visant à favoriser la publication de données structurées sur le Web, non pas sous la forme de silos de données isolés les uns des autres, mais en les reliant entre elles pour constituer un réseau global d'informations
-
-* Qu'est-ce que ça veut dire pour vous "intégration de données connectées" ?
-
-Requêtage d'API pour récupérer des données venant du Web
-
-* En quoi cela peut vous servir dans un parcours Dats Science ?
-
-Façon efficace de récupérer une grande quantité de données pour pouvoir appliquer des modèles d'appretissage dessus
+Ces informations viennet de 4 sources différentes + une source nous permettant de passer du code postal au code INSEE. On a fait le choix d'utiliser le code INSEE quand il était disponible dans le jeu de données. Pour les données relatives aux centres de dépistage COVID, le code INSEE n'était pas disponible et on a donc récupéré le code postal présent dans la chaîne de caratères de l'adresse en utilisant des expressions régulières.
