@@ -2,17 +2,17 @@
 <html lang="fr">
     <head>
         <meta charset="utf-8">
-        <link rel="stylesheet" href="style.css"/>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet"/>
+        <link href="style.css" rel="stylesheet" />
         <script src="https://d3js.org/d3.v5.min.js"></script>
-        <script src="fonction.js"></script>
-        <script src="automatisation.js"></script>
+        <script src="utils.js"></script>
         <script src="sphere.js"></script>
         <script src="request.js"></script>
     </head>
 
     <body>
         <div id="maincontent">
-
+            <svg></svg>
         </div>
     </body>
 </html>
@@ -58,10 +58,9 @@
 
         //Liste : pays, dette, salaire, pib
         var pays = concat(dette,salaire,pib);
-        console.log("PAYS : ", pays);
 
-        // var filters = ["debt", "wage", "pib"];
-        // var sel = new Selector(filters);
+        var filters = ["debt", "wage", "gdp"];
+        var sel = new Selector(pays, filters, width=1200, height=1200);
         // sphere.draw(pays, filter="pib", range=60);
     }
     else 

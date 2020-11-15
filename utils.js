@@ -9,7 +9,7 @@ function formater(txt)
     var liste = [];
     var listeFinal = [];
 
-    for (var i = 0 ; i <= txt.length; i++) 
+    for (var i = 0 ; i <= txt.length ; i++) 
     {
         if (txt[i] == '\n')
         {
