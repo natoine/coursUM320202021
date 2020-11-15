@@ -60,6 +60,7 @@
         var pays = concat(dette,salaire,pib);
 
         var filters = ["debt", "wage", "gdp"];
+        console.log("IN : ", pays);
         var sel = new Selector(pays, filters, range=60, width=1200, height=900);
         // sphere.draw(pays, filter="pib", range=60);
     }

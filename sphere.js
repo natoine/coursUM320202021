@@ -109,7 +109,7 @@ class Sphere {
 
         var legendScale = d3.scaleLinear()
             .domain([d3.min(display_data, e => e[filter]), d3.max(display_data, e => e[filter])])
-            .range([0, 60 * 5]);
+            .range([0, range * 5]);
 
         that.svg.append("g")
             .attr('transform', 'translate(' + xoff + ',' + yoff + ')')

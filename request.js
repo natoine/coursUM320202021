@@ -3,21 +3,28 @@ const scale = (num, in_min, in_max, out_min, out_max) => {
 }
 
 const normalize = (data, filter, out_min, out_max) => {
-    var min = d3.min(data, e => e[filter]), max = d3.max(data, e => e[filter]);
-    for (var i = 0; i < data.length; i++) { data[i][filter] = scale(data[i][filter], min, max, out_min, out_max); }
-    return data;
+    var res = data.map(x => x);
+    // for (var i=0; i < data.length; i++) { res.push(data[i]); }
+
+    var min = d3.min(res, e => e[filter]), max = d3.max(res, e => e[filter]);
+    for (var i = 0; i < res.length; i++) { res[i][filter] = scale(res[i][filter], min, max, out_min, out_max); }
+
+    return res;
 }
 
 class Selector {
     constructor(data, filters, range=60, width=800, height=800) {
-        this.data = data.slice();
+        this.data = data.map(x => x);
         this.display_data;
         // map data into the range [0,60]
-        filters.forEach(function (filter,i) {
-            data = normalize(data, filter, 0, range);
-        });
+        var that = this;
+        // filters.forEach(function (filter,i) {
+        //     that.display_data = normalize(data, filter, 0, range);
+        // });
         this.display_data = data;
 
+        console.log("DISPLAY : ", this.display_data);
+        console.log("REAL : ", this.data);
         // init svg for sphere and information board
         this.svg = d3.select("svg")
             .attr("id", "world")
@@ -38,7 +45,6 @@ class Selector {
             ""
         ];
         for (var i in filters) {
-            var that = this;
             var filter = filters[i];
 
             var info = this.information;
@@ -50,11 +56,11 @@ class Selector {
                 .attr("id", filter)
                 .attr("name", filter)
                 .attr("value", filter)
-                .property("checked", false)
+                .property("checked", d => (filter == filters[0]) ? true : false)
                 .on("click", function() {
                     console.log(this, this.id);
                     d3.selectAll("input").property("checked", false);
-                    d3.select("#" + this.id).property("checked", "true");
+                    d3.select("#" + this.id).property("checked", true);
                     sphere.removeMap();
                     info.init();
                     sphere = new Sphere(that.display_data, that.data, this.id, info, range=range, width=width, height=height);
