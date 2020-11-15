@@ -13,13 +13,13 @@ class Sphere {
         this.path = d3.geoPath()
             .projection(this.projection);
 
-        this.svg = d3.select("#world");
+        this.svg = d3.select("#sphere");
 
         this.graticule = d3.geoGraticule();
 
-        var xoff = 50, yoff = 10;
-        this.svg.append("path")
-            .attr("transform", "translate(" + xoff + ',' + yoff + ')')
+        this.xoff = 50, this.yoff = 10;
+        this.svg.append("g").append("path")
+            .attr("transform", "translate(" + this.xoff + ',' + this.yoff + ')')
             .datum(this.graticule)
             .attr("class", "graticule")
             .attr("d", this.path);
@@ -46,12 +46,11 @@ class Sphere {
 
     // DRAW COUNTRIES ONTO THE MAP
     d3.json("data_samples/world-countries.json").then(function(collection) {
-        var xoff = 50, yoff = 10;
         // console.log(data);
         var countries = that.svg.selectAll("path")
             .data(collection.features)
             .enter().append("path")
-                .attr("transform", "translate(" + xoff + ',' + yoff + ')')
+                .attr("transform", "translate(" + that.xoff + ',' + that.yoff + ')')
                 .attr("d", that.path)
                 .attr("class", "country")
                 .attr("id", d => d.id)  
@@ -80,7 +79,7 @@ class Sphere {
                         if (information_data[i].country === d.id) { value = information_data[i][filter] + " USD IN "; }
                     }
                     msg += value;
-                    msg += filter.toUpperCase();
+                    msg += filter;
                     information.changeText(msg);
                     // d3.select("text#information").text();
                 })
@@ -118,10 +117,12 @@ class Sphere {
     });
 
     // ADD TITLE
+    var title = filter + " of different countries in the world";
+    title = title.toUpperCase();
     this.svg.append("g")
         .attr("id", "title")
-        .attr("transform", "translate(" + width/2.25 + ", 25)")
-        .append("text").text(filter.toUpperCase() + " of different countries in the world");
+        .attr("transform", "translate(" + (width*0.4) + ", 25)")
+        .append("text").text(title);
 // ****************** DRAW IN BETWEEN ***************************** //
 
     // DRAG FUNTIONNALITY
@@ -147,15 +148,24 @@ class Sphere {
     }
 
     removeMap() {
-        d3.select("#map").remove();
+        d3.select("#sphere").remove();
+        d3.select("svg").append("g").attr("id", "sphere");
+        d3.select("#g_information").remove();
+        // d3.select("#maincontent").append("svg").attr("id", "world");
     }
 
 }
 
 class Information {
     constructor (width=800, height=800) {
-        var xoff = width * 0.5, yoff = height - 30;
+        this.width = width, this.height = height;
+        this.init();
+    }
+
+    init() {
+        var xoff = this.width * 0.5, yoff = this.height - 20;
         this.g = d3.select("svg").append("g")
+            .attr("id", "g_information")
             .attr("transform", "translate(" + xoff + "," + yoff + ")");
         // this.rect = this.g.append("rect")
         //         .attr("id", "information")
@@ -174,11 +184,11 @@ class Information {
     changeText(msg) {
         this.text.text(msg);
         this.text.style("visibility", "visible");
-        this.rect.style("visibility", "visible");
+        // this.rect.style("visibility", "visible");
     }
 
     hide() {
-        this.rect.style("visibility","hidden");
         this.text.style("visibility","hidden");
+        // this.rect.style("visibility","hidden");
     }
 }

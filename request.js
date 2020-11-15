@@ -22,18 +22,26 @@ class Selector {
         this.svg = d3.select("svg")
             .attr("id", "world")
             .attr("width", width)
-            .attr("height", height);
+            .attr("height", height)
+            .append("g").attr("id", "sphere");
 
         this.information = new Information(width, height);
-        this.map = new Sphere(this.data, this.display_data, filters[0], this.information, range=range);
+        this.map = new Sphere(this.display_data, this.data, filters[0], this.information, range=range, width=width, height=height);
         this.div = d3.select("#maincontent").append("div")
             .attr("id", "selector");
-        // this.form = this.div.append("form");
         this.table = this.div.append("table");
 
+        // TODO
+        var description = [
+            "",
+            "",
+            ""
+        ];
         for (var i in filters) {
             var that = this;
             var filter = filters[i];
+
+            var info = this.information;
             var sphere = this.map;
             
             var tr = this.table.append("tr");
@@ -42,16 +50,20 @@ class Selector {
                 .attr("id", filter)
                 .attr("name", filter)
                 .attr("value", filter)
-                .attr("checked", (filter === filters[0]) ? true : false)
+                .property("checked", false)
                 .on("click", function() {
                     console.log(this, this.id);
-                    d3.selectAll("input").checked = false;
+                    d3.selectAll("input").property("checked", false);
+                    d3.select("#" + this.id).property("checked", "true");
                     sphere.removeMap();
-                    sphere = new Sphere(that.display_data, filter, range=range);
+                    info.init();
+                    sphere = new Sphere(that.display_data, that.data, this.id, info, range=range, width=width, height=height);
                 });
             tr.append("label")
                 .attr("for", filter)
                 .text(filter.toUpperCase());
+            tr.append("text").attr("id", "description")
+                .text(description[i]);
         }
     }
 }

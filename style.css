@@ -15,9 +15,13 @@ html {
     stroke-opacity: .5;
 }
 
+svg {
+    float: right;
+}
+
 #selector {
-    /* float: right; */
-    display: inline-block;
+    float: left;
+    /* font-size: 20pt; */
 }
 
 #information {
