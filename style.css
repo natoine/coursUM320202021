@@ -1,6 +1,10 @@
+html {
+    font-family: 'Roboto', sans-serif;
+}
+
 #map { 
-    height: 100vh; 
-    width: 100vh; 
+    height: 100vh;
+    width: 100vh;
     float: left;
 }
 
@@ -14,4 +18,8 @@
 #selector {
     /* float: right; */
     display: inline-block;
+}
+
+#information {
+    background-color: rgb(201, 184, 137);
 }

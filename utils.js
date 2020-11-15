@@ -9,7 +9,7 @@ function formater(txt)
     var liste = [];
     var listeFinal = [];
 
-    for (var i = 0 ; i <= txt.length ; i++) 
+    for (var i = 0 ; i <= txt.length; i++) 
     {
         if (txt[i] == '\n')
         {
@@ -86,7 +86,9 @@ function concat(l1,l2,l3)
             {
                 if(liste1[i][0] == liste2[j][0] && liste1[i][0] == liste3[n][0])
                 {
-                    pays.push({ "country" : liste1[i][0], "debt" : liste1[i][1], "wage" : liste2[j][1], "pib" : liste3[n][1] });
+                    var country_code = liste1[i][0].substring(1);
+                    var debt = liste1[i][1], wage = liste2[j][1], gdp = liste3[n][1];
+                    pays.push({ "country" : country_code, "debt" : debt, "wage" : wage, "gdp" : gdp });
                 }  
             }
             

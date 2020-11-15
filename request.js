@@ -9,7 +9,7 @@ const normalize = (data, filter, out_min, out_max) => {
 }
 
 class Selector {
-    constructor(data, filters, range=60) {
+    constructor(data, filters, range=60, width=800, height=800) {
         this.data = data.slice();
         this.display_data;
         // map data into the range [0,60]
@@ -18,7 +18,14 @@ class Selector {
         });
         this.display_data = data;
 
-        this.map = new Sphere(this.display_data, filters[0], range=range);
+        // init svg for sphere and information board
+        this.svg = d3.select("svg")
+            .attr("id", "world")
+            .attr("width", width)
+            .attr("height", height);
+
+        this.information = new Information(width, height);
+        this.map = new Sphere(this.data, this.display_data, filters[0], this.information, range=range);
         this.div = d3.select("#maincontent").append("div")
             .attr("id", "selector");
         // this.form = this.div.append("form");
