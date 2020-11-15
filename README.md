@@ -1,4 +1,5 @@
 Présentation du projet "City Compare"
+
 Projet de Emmanuelle Theron, Mélodie Cassan, Moulikatou Alaka, Jonathan Moreno
 
 L'objectif de ce projet est de proposer un outil simple pour comparer certains paramètres liés à la vie quotidienne et au marché immobilier pour l'ensemble des villes françaises (métropolitaines).
