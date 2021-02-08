@@ -1,15 +1,71 @@
 <!doctype html>
 <html lang="fr">
+
+<head>
+    <meta charset="utf-8">
+    <script type="text/javascript" src="https://oss.sheetjs.com/sheetjs/xlsx.full.min.js"></script>
+    <script src="https://d3js.org/d3.v3.js"></script>
+    <link href="bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+
+<div id=maincontent>
+
     <head>
         <meta charset="utf-8">
-
+        <script type="text/javascript" src="https://oss.sheetjs.com/sheetjs/xlsx.full.min.js"></script>
     </head>
 
-    <body>
-        <div id=maincontent>
 
-        </div>
-    </body>
+</div>
+<div class="dropdown">
+    <select name="list" id="dep">
+        <option value="Vue Generale">Vue Generale</option>
+        <option value="Alpes-Maritimes">Alpes-Maritimes</option>
+        <option value="Alpes-de-Haute-Provence">Alpes-de-Haute-Provence</option>
+        <option value="Bouches-du-Rhône">Bouches-du-Rhône</option>
+        <option value="Hautes-Alpes">Hautes-Alpes</option>
+        <option value="Var">Var</option>
+        <option value="Vaucluse">Vaucluse</option>
+    </select>
+</div>
+<button onclick="Affichage()">Affichage</button>
+<p id="demo"></p>
+
+
+<div class="container">
+<div class="row">
+<div id="graph" class="span12"></div>
+</div>
+</div>
+<br><br>
+
+<div id="pop">
+</div>
+<br><br>
+<div id="chartContainer" style="height: 400px; width: 75%;margin-left: 12%;"></div>
+<br><br>
+<div id="chartContainer2" style="height: 400px; width: 75%;margin-left: 12%;"></div>
+<br><br>
+<div id="chartContainer3" style="height: 400px; width: 75%;margin-left: 12%;"></div>
+<br><br>
+<div id="chartContainer4" style="height: 400px; width: 75%;margin-left: 12%;"></div>
+<br><br>
+<div id="chartContainer5" style="height: 400px; width: 75%;margin-left: 12%;"></div>
+<br><br>
+<div id="chartContainer6" style="height: 400px; width: 75%;margin-left: 12%;"></div>
+<br><br>
+<div id="chartContainer7" style="height: 400px; width: 75%;margin-left: 12%;"></div>
+<br><br>
+<div id="chartContainer8" style="height: 400px; width: 75%;margin-left: 12%;"></div>
+<br><br>
+<div id="chartContainer9" style="height: 400px; width: 75%;margin-left: 12%;"></div>
+
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+</body>
 </html>
 
 <script  src="scriptprojet.js">
