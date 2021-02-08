@@ -1,47 +1,38 @@
-# coursUM320202021
-le support de cours de 2020 - 2021
- 
-#les questions de culture générale - introduction
- 
-* Date et nom de l'inventeur du web : 
-    Tim Berners-Lee en 1989
+# COVID NEWS
 
-* La différence entre le Web et internet ?
-Internet est la structure sur lequelles l'application web existe.
-Internet c'est le réseau globale. Et le web est un des services de internet.
+ANDRAUD Amélia, PORTE Tiphaine, PODEROSO Aurore.
 
-* Les 3 technologies fondatrices du Web et à quoi elles servent ?
-- Le HTTP : qui est le protocole de transfert réseaux au dessus d'IP. Il permet l'envoie de données.
-- Le HTML : est un système de balisage ( lagage de description ) normé par le W3C pour permettre de décrire la structure d'une page web.
-- Les URI : système de nommage des Ressources.
+Ce site permet de suivre quotidiennement l'évolution de la COVID-19. En fonction du département que vous sélectionnez, retrouvez toutes les informations relatives à l'épidémie (hospitalisations, réanimations, décès, guéris...) ainsi que l'ensemble des lieux de dépistage présents dans le département.
 
-* Qu’est-ce que l’interopérabilité ? 
-    Possibilité de communication entre deux ou plusieurs systèmes, appareils ou éléments informatiques.
+Lien vers le site : https://aurorepdrs.github.io/coursUM320202021/
 
-* Qu'est ce que le web de données ? 
-Ca permet de relier les données entre elles sur le web par des URI.
-    Publication de données structurées et reliés entres elles sur le Web --> réseau global d'informations.
-le web des données est la demarche d'integrer ensemble des données disparates et de les organiser 
 
-* Qu'est-ce que ça veut dire pour vous "intégration de données connectées" ?
-L'intégration de données connectée est l'aggregation de données.
+Afin de réaliser ce projet, nous avons utilisé 2 sources de données : 
 
-* En quoi cela peut vous servir dans un parcours Data Science ?
-Cela permet d'aller chercher des données et de constituer un corpus de données.
+- 1ère source : https://coronavirusapi-france.now.sh/AllLiveData : informations mises à jour quotidiennement sur l'épidémie de la COVID-19 en fonction des départements et des régions (fichier JSON)
+- 2ème source : https://www.data.gouv.fr/fr/datasets/r/7c0f7980-1804-4382-a2a8-1b4af2e10d32 : sites de prélèvements des tests COVID-19 en France (fichier CSV)
 
-#le sujet support d'exercice 
-Sur un github partagé, une branche par groupe, nous allons développer un moissoneur de données sur les EHPAD en France.
+Le lien entre les deux sources de données est le département. Notre objectif est d'afficher, pour un département choisi par l'utilisateur, les chiffres quotidiens de l'épidémie, ainsi que les lieux et informations où il peut aller se faire dépister en cas de doute. 
 
-#le sujet du projet en groupe
+Les principales difficultés : 
 
-Identifier des sources de données sur le Web.
-Récupérer des données à partir de ces sources.
-Les aggréger et les restituer.
-Identifier les difficultés de la démarche.
+- Trouver des sources de données cohérentes entre elles et où l'on pouvait effectuer des fetchs.
 
-Par groupe de 4 ou 3.
+- Exploiter le fichier CSV: utilisation de la librairie `papaperse` qui a permis de transformer le fichier CSV en array et de créer des clefs et des valeurs pour chaque champ.
 
-Le livrable c'est un code client html javascript uniquement hébergé en githubpage.
+- Lier les deux bases de données avec le département. Les départements n'ont pas la même structure dans les deux sources de données : dans la première, les codes postaux sont de la forme "DEP-01" et, dans la seconde, il n'y a pas de colonne pour le département mais seulement l'adresse complète.
+
+Les fonctions implémentées:
+
+- menu_deroulant(): Implémentation d'un menu déroulant, où les options sont les départements (récupérés de la première source de données) et dont la value est le numéro du département. 
+
+- affichage(): Fonction générale appelée lorsque l'utilisateur clique sur le bouton "Afficher les informations relatives à la COVID-19". Elle contient les deux sources de données et appelle les autres fonctions. 
+
+- affiche_phrase(data): Cette fonction prend en paramètre le fichier JSON relatif à l'épidémie. Elle permet de récupérer le code postal et de filtrer les données en fonction du département choisi. Elle affiche, dans le HTML, une phrase contenant les informations sur l'épidémie et un GIF.
+
+- transf_donnee_web_a_table(element): Cette fonction prend en argument chaque ligne du tableau CSV originale. Elle récupère le code postal et crée des clefs et des valeurs pour chaque champ.
+
+- affiche_tableau(result_mod): Cette fonction prend en paramètre les données du fichier CSV modifiées grâce à la librairie `papaperse`. Elle va filtrer les résultats et les ranger dans un tableau. Elle utilise la librarie boostrap pour améliorer le visuel. 
 
 #Ressources intéressantes 
 

@@ -1,16 +1,131 @@
 <!doctype html>
 <html lang="fr">
-    <head>
-        <meta charset="utf-8">
-
+	<head>
+    	<title>COVID NEWS</title>
+        	<meta charset="utf-8">
+        	<script src="https://unpkg.com/papaparse@5.3.0/papaparse.min.js" >	</script>
+        	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+			<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     </head>
 
-    <body>
-        <div id=maincontent>
+   	<style type="text/css">
+    	body{
+			background-color: #F0FFFF;
+			}
+		h1{
+			color:#FF8587;
+			font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+			text-align: center;
+			font-size: 80px;
+			border-width:2px;
+ 			border-style:dotted;
+ 			border-color:#FF8587;
+ 			margin-right: 300px;
+ 			margin-left: 300px;
+		}
+		img{
+			width: 300px;
+			height: 200px;
+			display: block;
+  			margin-left: auto;
+  			margin-right: auto;
+  			border-radius: 25px;
+		}
+		p{
+			font-family: "Arial";
+			text-align: center;
+			margin-left: 80px;
+			margin-right: 80px;
+			color: #FF8587;
+			font-size: 20px
+		}
+		hr{
+			width: 50%;
+			size: 15;
+		}
+		input[type="submit"], textarea {
+  			background-color : #FF8587;
+  			border-bottom-left-radius: 15px;
+			border-bottom-right-radius: 15px;
+			border-top-right-radius: 15px;
+			border-top-left-radius: 15px;
+			font-family: Arial; 
+		}
+		#div1{
+			margin-left: 420px;
+		}
+		#div2{
+			margin-left: 450px;
+		}
+		#div3{
+			margin-left: 60px;
+			font-family: "Arial";
+			text-align: center;
+			margin-left: 80px;
+			margin-right: 80px;
+			color: black;
+			font-size: 25px;
+		}
+		#div4{
+			margin-left: 80px;
+			margin-right: 80px;
+			
+		}
+		#div5{
+			margin-left: 60px;
+			font-family: "Arial";
+			text-align: center;
+			margin-left: 80px;
+			margin-right: 80px;
+			color: #FF8587;
+			font-size: 25px;
+		}
+		#div6{
+			font-size: 5px;
+		}
+		label{
+			font-family: arial;
+		}
+    </style>
 
+	<script  src="scriptprojet.js">
+	</script>
+
+    <body>
+    	<h1> COVID NEWS</h1>
+    	<br>
+    	<img src="gifcorona.gif">
+    	<br>
+    	<p> Retrouvez ici toutes les infos concernant la COVID-19 en fonction de votre département. </p>
+    	<p> N'hésitez pas à consulter les endroits proches de chez vous pour vous faire tester ! </p>
+    	<hr>
+    	<br>
+    	<div id="div1">
+    		<label for="dep-select">Choisissez un département:</label>
+			<select name="dep" id="dep-select">
+    			<option>--Veuillez choisir un département--</option>
+			</select>
+		</div>
+		<br>
+		<div id="div2">
+			<input type="submit" value="Afficher les informations relatives à la COVID-19" onclick="affichage();">
+		</div>
+		<br>
+		<br>
+        <div id="div3"></div>
+        <div id="div4">
         </div>
+        <div id="div5"></div>
+        <br>
+   		<br>
+        <div id=maincontent>
+        </div>
+        <div id='div6'>
+        	<p>© ANDRAUD Amélia, PORTE Tiphaine, PODEROSO Aurore </p>
+        </div>
+  
+
     </body>
+
 </html>
 
-<script  src="scriptprojet.js">
-</script>
